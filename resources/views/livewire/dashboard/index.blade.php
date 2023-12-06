@@ -100,11 +100,11 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-12 mb-lg-0 mb-4">
+                <div class="col-lg-6 mb-lg-0 mb-4">
                     <div class="card ">
                         <div class="card-header pb-0 p-3">
                             <div class="d-flex justify-content-between">
-                                <h6 class="mb-2">History Pertanyaan :</h6>
+                                <h6 class="mb-2">History Pertanyaan Selesai :</h6>
                             </div>
                         </div>
                         <div class="container">
@@ -185,8 +185,8 @@
                             <h6 class="mb-0">Kategori saya:</h6>
                         </div>
                         <div class="card-body p-3">
-                            {{-- <ul class="list-group">
-                                @foreach ($categoryList as $c)
+                            <ul class="list-group">
+                                @foreach ($ticket as $t)
                                     <li
                                         class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                         <div class="d-flex align-items-center">
@@ -195,7 +195,7 @@
                                                 <i class="ni ni-tag text-white opacity-10"></i>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">{{ $c->nama }}</h6>
+                                                <h6 class="mb-1 text-dark text-sm">{{ $t->category->name }}</h6>
                                                 <span class="text-xs">123 closed, <span class="font-weight-bold">15
                                                         open</span></span>
                                             </div>
@@ -207,7 +207,7 @@
                                         </div>
                                     </li>
                                 @endforeach
-                            </ul> --}}
+                            </ul>
                         </div>
                     </div>
                 </div>

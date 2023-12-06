@@ -18,10 +18,13 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->text('risk')->nullable();
             $table->integer('layers')->default(1);
-            $table->date('submission')->default(now());
-            $table->date('research')->nullable();
-            $table->date('response')->nullable();
-            $table->date('finished')->nullable();
+            $table->dateTime('submission')->default(now());
+            $table->dateTime('research')->nullable();
+            $table->integer('user_research')->nullable();
+            $table->dateTime('response')->nullable();
+            $table->integer('user_response')->nullable();
+            $table->string('updated_response')->nullable();
+            $table->dateTime('finished')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
         });

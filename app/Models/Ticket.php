@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class Ticket extends Model
 {
@@ -14,6 +15,14 @@ class Ticket extends Model
         'category_id', 'title', 'desc', 'user_id'
     ];
 
+    public static function getUserResearch()
+    {
+        $research = DB::table('tickets')
+            ->join('users', 'tickets.user_research', '=', 'users.id')
+            ->pluck('users.name');
+
+        return $research[0];
+    }
     /**
      * Get the user that owns the Tiket
      *

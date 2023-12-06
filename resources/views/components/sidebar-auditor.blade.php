@@ -15,18 +15,8 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu Dashboard</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ \Request::route()->getName() == 'tiket' ? 'active' : '' }} " href="/tiket"
-                    wire:navigate>
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-email-83 text-warning text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Buat Pertanyaan</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ \Request::route()->getName() == 'dashboard.ticket-list' ? 'active' : '' }}"
-                    href="{{ route('dashboard.ticket-list') }}" wire:navigate>
+                <a class="nav-link {{ \Request::route()->getName() == 'dashboard.auditor.ticket-list' ? 'active' : '' }}"
+                    href="{{ route('dashboard.auditor.ticket-list') }}" wire:navigate>
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
@@ -36,13 +26,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ \Request::route()->getName() == 'dashboard.index' ? 'active' : '' }}"
-                    href="/dashboard" wire:navigate>
+                <a class="nav-link {{ \Request::route()->getName() == 'dashboard.auditor.index' ? 'active' : '' }}"
+                    href="{{ route('dashboard.auditor.index') }}" wire:navigate>
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">History</span>
+                    <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -66,13 +56,8 @@
         </ul>
     </div>
     <div class="sidenav-footer mx-3 mt-5">
-        @if (Auth::user() && Auth::user()->role_id == 3)
-            <a href="{{ route('dashboard.auditor.index') }}" class="btn btn-dark btn-sm w-100 mb-3"
-                wire:navigate>Dashboard
-                Auditor</a>
-        @endif
-        {{-- <a class="btn btn-primary btn-sm mb-0 w-100"
-            href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Dashboard
-            Admin</a> --}}
+        <a class="btn btn-primary btn-sm mb-0 w-100" href="{{ route('dashboard.index') }}" type="button"
+            wire:navigate>Dashboard
+        </a>
     </div>
 </div>

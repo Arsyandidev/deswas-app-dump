@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Models\Role;
 use App\Models\Ticket;
-use App\Models\Tiket;
-use App\Models\TiketCategory;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,9 +13,8 @@ class Index extends Component
 {
     use WithPagination;
 
-    // public $search = '';
-    public $tiket, $categoryList;
-    public $submissionCount, $researchCount, $responseCount, $finishedCount;
+    public $tiket, $categoryList, $getCategory, $role;
+    public $submissionCount, $researchCount, $responseCount, $finishedCount, $isFinished;
 
     public function mount(): void
     {
@@ -34,6 +33,9 @@ class Index extends Component
         $this->finishedCount = Ticket::where('user_id', Auth::user()->id)
             ->where('finished', '!=', null)
             ->count();
+
+        $categoriTicket = Ticket::select('category_id')->get();
+        $this->getCategory = json_decode($categoriTicket);
     }
 
     public function render()
@@ -41,8 +43,9 @@ class Index extends Component
         return view('livewire.dashboard.index', [
             'ticket' => Ticket::with(['user', 'category'])
                 ->where('user_id', Auth::user()->id)
-                // ->where('title', 'like', '%' . $this->search . '%')
                 ->paginate(3),
+            'user' => Role::where('id', Auth::user()->role_id)
+                ->first()
         ]);
     }
 }

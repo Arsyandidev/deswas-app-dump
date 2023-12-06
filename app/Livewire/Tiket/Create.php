@@ -52,7 +52,7 @@ class Create extends Component
             toast('Berhasil membuat tiket pertanyaan.', 'success');
 
             return redirect()
-                ->route('dashboard.index');
+                ->route('dashboard.ticket-list');
         } catch (\Throwable $th) {
             DB::rollBack();
 
