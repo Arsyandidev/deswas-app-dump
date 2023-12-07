@@ -21,7 +21,8 @@ class Detail extends Component
 
         $rname = Ticket::getUserResearch();
         $this->researchName = $rname;
-        $getChats = TicketChat::with('ticket')->where('id', $id)->get();
+        $getChats = TicketChat::with('ticket')->where('ticket_id', $id)
+            ->get();
         $this->chatPerson = $getChats;
     }
 

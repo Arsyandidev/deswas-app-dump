@@ -271,7 +271,12 @@
                                                         </form>
                                                     @else
                                                         <div class="alert alert-light" role="alert">
-                                                            <p class="h6">{{ $c->chat }}</p>
+                                                            {{ $c->chat }}
+                                                        </div>
+                                                        <div class="alert alert-warning text-white text-center"
+                                                            role="alert">
+                                                            <strong>Perhatian!</strong> Harus menunggu persetujuan dari
+                                                            Inspektur.
                                                         </div>
                                                     @endif
                                                 @endforeach
@@ -292,7 +297,6 @@
                             <div class="card-body">
                                 <div id="tracking">
                                     <p class="h3 text-center">Tiket Histori</p>
-                                    <hr class="horizontal dark">
                                     <div class="tracking-list">
                                         @if ($ticket->submission)
                                             <div class="tracking-item">

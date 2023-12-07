@@ -261,7 +261,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">Belum ada tanggapan</p>
+                                            <div class="alert alert-info text-white text-center" role="alert">
+                                                <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
