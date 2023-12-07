@@ -3,6 +3,7 @@
 namespace App\Livewire\DashboardAuditor\TicketList;
 
 use App\Models\Ticket;
+use App\Models\TicketChat;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ use Livewire\Component;
 
 class Detail extends Component
 {
-    public $ticket;
+    public $ticket, $getChat, $ticketChat, $chatPerson;
     public $researchName;
 
     public function mount($id)
@@ -20,6 +21,19 @@ class Detail extends Component
 
         $rname = Ticket::getUserResearch();
         $this->researchName = $rname;
+        $getChats = TicketChat::with('ticket')->where('id', $id)->get();
+        $this->chatPerson = $getChats;
+    }
+
+    public function render()
+    {
+        return view('livewire.dashboard-auditor.ticket-list.detail', [
+            'ticket' => $this->ticket,
+            'user' => Ticket::with('user')
+                ->first(),
+            'research' => $this->researchName,
+            'chat' => $this->chatPerson
+        ]);
     }
 
     public function telaah($id)
@@ -52,13 +66,12 @@ class Detail extends Component
         $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
     }
 
-    public function render()
+    public function chat($id)
     {
-        return view('livewire.dashboard-auditor.ticket-list.detail', [
-            'ticket' => $this->ticket,
-            'user' => Ticket::with('user')
-                ->first(),
-            'research' => $this->researchName
-        ]);
+        TicketChat::where('ticket_id', $id)
+            ->update(['chat' => $this->getChat]);
+
+        toast('Tanggapan sudah di kirim', 'success');
+        $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
     }
 }

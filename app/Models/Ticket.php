@@ -21,7 +21,7 @@ class Ticket extends Model
             ->join('users', 'tickets.user_research', '=', 'users.id')
             ->pluck('users.name');
 
-        return $research[0];
+        return $research;
     }
     /**
      * Get the user that owns the Tiket

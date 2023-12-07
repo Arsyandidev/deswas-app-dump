@@ -4,6 +4,7 @@ namespace App\Livewire\Tiket;
 
 use App\Models\Ticket;
 use App\Models\TicketCategory;
+use App\Models\TicketChat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -22,45 +23,34 @@ class Create extends Component
         ];
     }
 
-    public function mount(): void
-    {
-        $category           = TicketCategory::all();
-        $this->category_id  = json_decode($category);
-    }
-
     public function render()
     {
-        return view('livewire.tiket.create');
+        $category           = TicketCategory::all();
+        return view('livewire.tiket.create', [
+            'category' => json_decode($category)
+        ]);
     }
 
     public function store()
     {
         $this->validate();
 
-        DB::beginTransaction();
+        $ticket = Ticket::create([
+            'category_id'   => $this->category_id,
+            'title'         => $this->title,
+            'desc'          => $this->desc,
+            'user_id'       => Auth::user()->id
+        ]);
 
-        try {
-            Ticket::create([
-                'category_id'   => $this->category_id,
-                'title'         => $this->title,
-                'desc'          => $this->desc,
-                'user_id'       => Auth::user()->id
+        if ($ticket) {
+            TicketChat::create([
+                'ticket_id' => $ticket->id
             ]);
-
-            DB::commit();
-
-            toast('Berhasil membuat tiket pertanyaan.', 'success');
-
-            return redirect()
-                ->route('dashboard.ticket-list');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            toast($th->getMessage(), 'error');
-
-            return redirect()
-                ->back()
-                ->withInput();
         }
+
+        toast('Berhasil membuat tiket pertanyaan.', 'success');
+
+        return redirect()
+            ->route('dashboard.ticket-list');
     }
 }

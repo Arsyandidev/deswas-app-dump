@@ -27,7 +27,7 @@
                                             <label for="exampleFormControlSelect1">Example select</label>
                                             <select class="form-control" wire:model="category_id">
                                                 <option>Pilih kategori</option>
-                                                @foreach ($category_id as $c)
+                                                @foreach ($category as $c)
                                                     <option value="{{ $c->id }}">{{ $c->name }}
                                                         ({{ $c->desc }})
                                                     </option>

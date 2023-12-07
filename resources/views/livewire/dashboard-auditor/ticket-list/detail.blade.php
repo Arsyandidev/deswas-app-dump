@@ -246,6 +246,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <hr class="horizontal dark">
                                 <p class="text-uppercase text-sm">Detil Tiket</p>
                                 <div class="row">
@@ -261,12 +262,24 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="alert alert-info text-white" role="alert">
-                                                <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
-                                            </div>
-                                            <form>
-                                                <textarea class="form-control" id="summernote"></textarea>
-                                            </form>
+                                            @foreach ($chat as $ch)
+                                                {{ $ch->chat }}
+                                            @endforeach
+                                            @if (!empty($ticket->risk))
+                                                @if ($ticket->response == null)
+                                                    <form wire:submit.prevent="chat({{ $ticket->id }})">
+                                                        <textarea class="form-control" wire:model="getChat"></textarea>
+                                                        <button type="submit">Kirim</button>
+                                                    </form>
+                                                @else
+                                                    {{ $ticket->response }}
+                                                @endif
+                                            @else
+                                                <div class="alert alert-info text-white" role="alert">
+                                                    <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -316,7 +329,7 @@
                                                 <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
                                                 <div class="tracking-content">
                                                     <p class="h6">Telaah</p>
-                                                    <p>{{ $research }}</p>
+                                                    <p>{{ $research ?? '-' }}</p>
                                                 </div>
                                             </div>
                                         @endif
@@ -326,16 +339,20 @@
                             <hr class="horizontal dark">
                             <div class="card-footer">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
-                                    @if (!$ticket->research)
+                                    @if ($ticket->research == null)
                                         <button wire:click.prevent="telaah({{ $ticket->id }})"
                                             class="btn btn-primary btn-lg w-100">Telaah</button>
-                                    @elseif ($ticket->research)
+                                    @endif
+
+                                    @if ($ticket->research == !null)
                                         <button wire:click.prevent="secondLayer({{ $ticket->id }})"
                                             class="btn btn-danger btn-lg w-100">Layer 2 > (Tinggi)</button>
                                         <button wire:click.prevent="firstLayer({{ $ticket->id }})"
                                             class="btn btn-info btn-lg w-100">Layer 1 > (Rendah)</button>
-                                    @elseif (!$ticket->response)
-                                        <p>Tiket dalam progres</p>
+                                    @endif
+
+                                    @if ($ticket->risk != null)
+                                        <p class="h6 text-center">Tiket dalamProses</p>
                                     @endif
                                 @endif
                             </div>
