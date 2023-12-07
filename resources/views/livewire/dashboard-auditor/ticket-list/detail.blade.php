@@ -262,18 +262,19 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            @foreach ($chat as $ch)
-                                                {{ $ch->chat }}
-                                            @endforeach
                                             @if (!empty($ticket->risk))
-                                                @if ($ticket->response == null)
-                                                    <form wire:submit.prevent="chat({{ $ticket->id }})">
-                                                        <textarea class="form-control" wire:model="getChat"></textarea>
-                                                        <button type="submit">Kirim</button>
-                                                    </form>
-                                                @else
-                                                    {{ $ticket->response }}
-                                                @endif
+                                                @foreach ($chat as $c)
+                                                    @if ($c->chat == null)
+                                                        <form wire:submit.prevent="chat({{ $ticket->id }})">
+                                                            <textarea class="form-control" wire:model="getChat"></textarea>
+                                                            <button type="submit">Kirim</button>
+                                                        </form>
+                                                    @else
+                                                        <div class="alert alert-light" role="alert">
+                                                            <p class="h6">{{ $c->chat }}</p>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             @else
                                                 <div class="alert alert-info text-white" role="alert">
                                                     <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
@@ -291,6 +292,7 @@
                             <div class="card-body">
                                 <div id="tracking">
                                     <p class="h3 text-center">Tiket Histori</p>
+                                    <hr class="horizontal dark">
                                     <div class="tracking-list">
                                         @if ($ticket->submission)
                                             <div class="tracking-item">
