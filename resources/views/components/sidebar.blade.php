@@ -71,6 +71,12 @@
                 wire:navigate>Dashboard
                 Auditor</a>
         @endif
+
+        @if (Auth::user() && Auth::user()->role_id == 4)
+            <a href="{{ route('dashboard.inspektur.index') }}" class="btn btn-dark btn-sm w-100 mb-3"
+                wire:navigate>Dashboard
+                Auditor</a>
+        @endif
         {{-- <a class="btn btn-primary btn-sm mb-0 w-100"
             href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Dashboard
             Admin</a> --}}

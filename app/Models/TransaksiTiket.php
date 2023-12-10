@@ -15,7 +15,8 @@ class TransaksiTiket extends Model
     protected $fillable = [
         'judul', 'deskripsi', 'kode_jabatan', 'jabatan', 'nip', 'nama', 'email', 'nomor_hp', 'prioritas', 'resiko',
         'kategori', 'read', 'profile_pic', 'publis', 'view', 'survey_nilai', 'survey_masukan', 'layer', 'waktu_habis',
-        'setuju_publis', 'setuju_lampiran', 'ref_id', 'pengajuan', 'telaah', 'jawaban', 'selesai', 'user_id'
+        'setuju_publis', 'setuju_lampiran', 'ref_id', 'pengajuan', 'telaah', 'jawaban', 'selesai', 'user_inspektur', 'setuju',
+        'user_id'
     ];
 
     public static function getNamaPengajuan()

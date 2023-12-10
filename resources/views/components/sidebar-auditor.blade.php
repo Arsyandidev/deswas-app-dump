@@ -15,14 +15,31 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu Dashboard</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ \Request::route()->getName() == 'dashboard.auditor.ticket-list' ? 'active' : '' }}"
-                    href="{{ route('dashboard.auditor.ticket-list') }}" wire:navigate>
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Daftar Pertanyaan</span>
-                </a>
+                @if (
+                    \Request::route()->getName() == 'dashboard.auditor.index' ||
+                        \Request::route()->getName() == 'dashboard.auditor.ticket-list')
+                    <a class="nav-link {{ \Request::route()->getName() == 'dashboard.auditor.ticket-list' ? 'active' : '' }}"
+                        href="{{ route('dashboard.auditor.ticket-list') }}" wire:navigate>
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Daftar Pertanyaan</span>
+                    </a>
+                @endif
+
+                @if (
+                    \Request::route()->getName() == 'dashboard.inspektur.index' ||
+                        \Request::route()->getName() == 'dashboard.inspektur.ticket-list')
+                    <a class="nav-link {{ \Request::route()->getName() == 'dashboard.inspektur.ticket-list' ? 'active' : '' }}"
+                        href="{{ route('dashboard.inspektur.ticket-list') }}" wire:navigate>
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Daftar Pertanyaan</span>
+                    </a>
+                @endif
             </li>
 
             <li class="nav-item">

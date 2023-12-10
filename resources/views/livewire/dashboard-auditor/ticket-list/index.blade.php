@@ -62,9 +62,9 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>{{ $t->pengajuan }}</td>
-                                                                <td>{{ $t->research ?? 'Belum di telaah' }}</td>
-                                                                <td>{{ 'Belum di tanggapi' }}</td>
-                                                                <td>{{ $t->finished ?? 'Tiket belum selesai' }}</td>
+                                                                <td>{{ $t->telaah ?? 'Belum di telaah' }}</td>
+                                                                <td>{{ $t->jawaban ?? 'Belum di tanggapi' }}</td>
+                                                                <td>{{ $t->selesai ?? 'Tiket belum selesai' }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

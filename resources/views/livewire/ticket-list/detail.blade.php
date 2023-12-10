@@ -261,9 +261,17 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <div class="alert alert-info text-white text-center" role="alert">
-                                                <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
-                                            </div>
+                                            @if ($ticket->jawaban == null)
+                                                <div class="alert alert-info text-white text-center" role="alert">
+                                                    <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
+                                                </div>
+                                            @endif
+                                            @if ($ticket->jawaban != null)
+                                                <div class="alert alert-warning text-white text-center" role="alert">
+                                                    <strong>Perhatian!</strong> Pertanyaan sudah di tanggapi. <br>
+                                                    Menunggu persetujuan dari Inspektur.
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

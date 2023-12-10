@@ -89,6 +89,11 @@ class Detail extends Component
                 'chat' => $this->getChat
             ]);
 
+        TransaksiTiket::where('id', $id)
+            ->update([
+                'jawaban' => Carbon::now()
+            ]);
+
         toast('Tanggapan sudah di kirim', 'success');
         $this->redirectRoute('dashboard.auditor.detail', [
             'id' => $id
