@@ -62,7 +62,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Status Tanggapan</p>
                                         <h1 class="font-weight-bolder">
-                                            {{ $responseCount }}
+                                            {{-- {{ $responseCount }} --}}
                                         </h1>
                                     </div>
                                 </div>

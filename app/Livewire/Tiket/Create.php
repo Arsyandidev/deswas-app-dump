@@ -2,32 +2,39 @@
 
 namespace App\Livewire\Tiket;
 
+use App\Models\ParameterKategori;
 use App\Models\Ticket;
 use App\Models\TicketCategory;
 use App\Models\TicketChat;
+use App\Models\TransaksiTiket;
+use App\Models\TransaksiTiketChat;
+use App\Models\TransaksiTiketProses;
+use App\Models\TransaksiTiketStatus;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $category_id, $user_id;
-    public $title, $desc;
+    public $kategori, $user_id;
+    public $judul, $deskripsi;
+    public $pengajuan, $telaah, $jawaban, $selesai;
 
     public function rules(): array
     {
         return [
-            'category_id'   => ['required'],
-            'title'         => ['required'],
-            'desc'          => ['required']
+            'kategori'      => ['required'],
+            'judul'         => ['required'],
+            'deskripsi'     => ['required']
         ];
     }
 
     public function render()
     {
-        $category           = TicketCategory::all();
+        $category           = ParameterKategori::all();
         return view('livewire.tiket.create', [
-            'category' => json_decode($category)
+            'category'      => json_decode($category)
         ]);
     }
 
@@ -35,16 +42,21 @@ class Create extends Component
     {
         $this->validate();
 
-        $ticket = Ticket::create([
-            'category_id'   => $this->category_id,
-            'title'         => $this->title,
-            'desc'          => $this->desc,
+        $ticket = TransaksiTiket::create([
+            'kategori'      => $this->kategori,
+            'judul'         => $this->judul,
+            'deskripsi'     => $this->deskripsi,
+            'pengajuan'     => Carbon::now(),
             'user_id'       => Auth::user()->id
         ]);
 
         if ($ticket) {
-            TicketChat::create([
-                'ticket_id' => $ticket->id
+            TransaksiTiketChat::create([
+                'id_transaksi_tiket' => $ticket->id
+            ]);
+
+            TransaksiTiketStatus::create([
+                'id_transaksi_tiket' => $ticket->id
             ]);
         }
 

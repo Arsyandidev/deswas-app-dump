@@ -3,6 +3,8 @@
 namespace App\Livewire\TicketList;
 
 use App\Models\Ticket;
+use App\Models\TransaksiTiket;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Detail extends Component
@@ -12,7 +14,7 @@ class Detail extends Component
 
     public function mount($id)
     {
-        $get = Ticket::find($id);
+        $get = TransaksiTiket::find($id);
         $this->ticket = json_decode($get);
 
         $rname = Ticket::getUserResearch();
@@ -23,7 +25,8 @@ class Detail extends Component
     {
         return view('livewire.ticket-list.detail', [
             'ticket' => $this->ticket,
-            'user' => Ticket::with('user')
+            'user' => TransaksiTiket::with('user')
+                ->where('user_id', Auth::user()->id)
                 ->first(),
             'research' => $this->researchName
         ]);

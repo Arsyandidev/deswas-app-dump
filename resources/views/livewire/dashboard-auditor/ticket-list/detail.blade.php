@@ -224,7 +224,7 @@
             </div>
         </div>
 
-        <div class="container-fluid py-4">
+        @foreach ($ticket as $t)
             <div class="container-fluid py-4">
                 <div class="row">
                     <div class="col-md-8">
@@ -234,15 +234,24 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <p class="h6">Kategori Tiket: lorem</p>
-                                            <p class="h6">Tingkat Kesulitan: Rendah</p>
+                                            <p class="h5"><i class="ni ni-archive-2"></i> {{ $t->kategori->name }}
+                                            </p>
+                                            <p class="h6">Tingkat Kesulitan:
+                                                @if ($t->resiko == 'Rendah')
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-success">{{ $t->resiko }}</span>
+                                                @else
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-danger">{{ $t->resiko }}</span>
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Tanggal dan
                                                 Waktu</label>
-                                            <p class="h6">{{ $ticket->created_at }}</p>
+                                            <p class="h6">{{ $t->created_at }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -252,8 +261,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">{{ $ticket->title }}</p>
-                                            <p class="lead mx-3">{{ $ticket->desc }}</p>
+                                            <p class="h3 text-center">{{ $t->judul }}</p>
+                                            <p class="lead mx-3">{{ $t->deskripsi }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -262,12 +271,13 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            @if (!empty($ticket->risk))
+                                            @if (!empty($t->resiko))
                                                 @foreach ($chat as $c)
                                                     @if ($c->chat == null)
-                                                        <form wire:submit.prevent="chat({{ $ticket->id }})">
+                                                        <form wire:submit.prevent="chat({{ $t->id }})">
                                                             <textarea class="form-control" wire:model="getChat"></textarea>
-                                                            <button type="submit">Kirim</button>
+                                                            <button class="btn btn-primary my-3 btn-lg w-100"
+                                                                type="submit">Kirim</button>
                                                         </form>
                                                     @else
                                                         <div class="alert alert-light" role="alert">
@@ -281,7 +291,7 @@
                                                     @endif
                                                 @endforeach
                                             @else
-                                                <div class="alert alert-info text-white" role="alert">
+                                                <div class="alert alert-info text-white text-center" role="alert">
                                                     <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
                                                 </div>
                                             @endif
@@ -298,28 +308,43 @@
                                 <div id="tracking">
                                     <p class="h3 text-center">Tiket Histori</p>
                                     <div class="tracking-list">
-                                        @if ($ticket->submission)
-                                            <div class="tracking-item">
-                                                <div class="tracking-icon status-intransit">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                        data-prefix="fas" data-icon="circle" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        data-fa-i2svg="">
-                                                        <path fill="currentColor"
-                                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                        </path>
-                                                    </svg>
-                                                    <!-- <i class="fas fa-circle"></i> -->
-                                                </div>
-                                                <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                                <div class="tracking-content">
-                                                    <p class="h6">Pengajuan</p>
-                                                    <p>{{ $user->user->name }}</p>
-                                                </div>
+                                        <div class="tracking-item">
+                                            <div class="tracking-icon status-intransit">
+                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
+                                                    data-prefix="fas" data-icon="circle" role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                                    data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
+                                                    </path>
+                                                </svg>
+                                                <!-- <i class="fas fa-circle"></i> -->
                                             </div>
-                                        @endif
+                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
+                                            <div class="tracking-content">
+                                                <p class="h6">Pengajuan</p>
+                                                <p>{{ $t->user->name }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="tracking-item">
+                                            <div class="tracking-icon status-intransit">
+                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
+                                                    data-prefix="fas" data-icon="circle" role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                                    data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
+                                                    </path>
+                                                </svg>
+                                                <!-- <i class="fas fa-circle"></i> -->
+                                            </div>
+                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
+                                            <div class="tracking-content">
+                                                <p class="h6">Pengajuan</p>
+                                            </div>
+                                        </div>
 
-                                        @if ($ticket->research)
+                                        {{-- @if ($t->research)
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
                                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
@@ -338,27 +363,29 @@
                                                     <p>{{ $research ?? '-' }}</p>
                                                 </div>
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-footer">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
-                                    @if ($ticket->research == null)
-                                        <button wire:click.prevent="telaah({{ $ticket->id }})"
+                                    @if ($t->telaah == null)
+                                        <button wire:click.prevent="telaah({{ $t->id }})"
                                             class="btn btn-primary btn-lg w-100">Telaah</button>
                                     @endif
 
-                                    @if ($ticket->research == !null)
-                                        <button wire:click.prevent="secondLayer({{ $ticket->id }})"
+                                    @if ($t->telaah != null && $t->resiko == null)
+                                        <button wire:click.prevent="secondLayer({{ $t->id }})"
                                             class="btn btn-danger btn-lg w-100">Layer 2 > (Tinggi)</button>
-                                        <button wire:click.prevent="firstLayer({{ $ticket->id }})"
+                                        <button wire:click.prevent="firstLayer({{ $t->id }})"
                                             class="btn btn-info btn-lg w-100">Layer 1 > (Rendah)</button>
                                     @endif
 
-                                    @if ($ticket->risk != null)
-                                        <p class="h6 text-center">Tiket dalamProses</p>
+                                    @if ($t->telaah != null && $t->resiko != null)
+                                        <div class="alert alert-secondary text-white text-center role="alert">
+                                            Tiket dalam Proses
+                                        </div>
                                     @endif
                                 @endif
                             </div>
@@ -366,5 +393,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        @endforeach
+</div>
+</main>

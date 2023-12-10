@@ -18,10 +18,11 @@ class Ticket extends Model
     public static function getUserResearch()
     {
         $research = DB::table('tickets')
+            ->distinct()
             ->join('users', 'tickets.user_research', '=', 'users.id')
             ->pluck('users.name');
 
-        return $research;
+        return $research[0] ?? null;
     }
     /**
      * Get the user that owns the Tiket

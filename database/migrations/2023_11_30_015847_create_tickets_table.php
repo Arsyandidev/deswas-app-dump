@@ -21,9 +21,6 @@ return new class extends Migration
             $table->dateTime('submission')->default(now());
             $table->dateTime('research')->nullable();
             $table->integer('user_research')->nullable();
-            $table->dateTime('response')->nullable();
-            $table->integer('user_response')->nullable();
-            $table->string('updated_response')->nullable();
             $table->dateTime('finished')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();

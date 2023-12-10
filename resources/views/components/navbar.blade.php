@@ -47,24 +47,26 @@
                         </ul>
                         <ul class="navbar-nav d-lg-block d-none">
                             @if (Auth::user())
-                                <div class="dropdown">
-                                    <a href="#" class="btn btn-sm mb-0 me-1 btn-primary" data-bs-toggle="dropdown"
-                                        id="navbarDropdownMenuLink2">
-                                        <i class="fas fa-user-circle text-light me-1"></i>
-                                        {{ Auth::user()->name }}
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                                        <div>
-                                            <li>
-                                                <livewire:auth.logout></livewire:auth.logout>
-                                            </li>
-                                            @if (Auth::user())
+                                <div wire:ignore>
+                                    <div class="dropdown">
+                                        <a href="#" class="btn btn-sm mb-0 me-1 btn-primary"
+                                            data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                            <i class="fas fa-user-circle text-light me-1"></i>
+                                            {{ Auth::user()->name }}
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                            <div>
                                                 <li>
-                                                    <x-admin.buttons.dashboard></x-admin.buttons.dashboard>
+                                                    <livewire:auth.logout></livewire:auth.logout>
                                                 </li>
-                                            @endif
-                                        </div>
-                                    </ul>
+                                                @if (Auth::user())
+                                                    <li>
+                                                        <x-admin.buttons.dashboard></x-admin.buttons.dashboard>
+                                                    </li>
+                                                @endif
+                                            </div>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <li class="nav-item">
                                     <a href="https://www.creative-tim.com/product/argon-dashboard"></a>

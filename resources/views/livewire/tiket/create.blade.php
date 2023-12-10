@@ -25,11 +25,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleFormControlSelect1">Example select</label>
-                                            <select class="form-control" wire:model="category_id">
+                                            <select class="form-control" wire:model="kategori">
                                                 <option>Pilih kategori</option>
                                                 @foreach ($category as $c)
                                                     <option value="{{ $c->id }}">{{ $c->name }}
-                                                        ({{ $c->desc }})
+                                                        ({{ $c->deskripsi }})
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -38,10 +38,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Judul</label>
-                                            <input wire:model="title"
-                                                class="form-control @error('title') is-invalid @enderror" type="text"
+                                            <input wire:model="judul"
+                                                class="form-control @error('judul') is-invalid @enderror" type="text"
                                                 placeholder="Masukan judul pertanyaan">
-                                            @error('title')
+                                            @error('judul')
                                                 <div class="alert alert-danger mt-2">
                                                     {{ $message }}
                                                 </div>
@@ -51,9 +51,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Deskripsi</label>
-                                            <textarea wire:model="desc" class="form-control @error('desc') is-invalid @enderror" rows="3"
+                                            <textarea wire:model="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" rows="3"
                                                 placeholder="Deskripsikan pertanyaan disini"></textarea>
-                                            @error('desc')
+                                            @error('deskripsi')
                                                 <div class="alert alert-danger mt-2">
                                                     {{ $message }}
                                                 </div>

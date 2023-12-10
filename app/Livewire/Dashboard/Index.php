@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\Role;
 use App\Models\Ticket;
+use App\Models\TransaksiTiketStatus;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -15,9 +16,11 @@ class Index extends Component
 
     public $tiket, $categoryList, $getCategory, $role;
     public $submissionCount, $researchCount, $responseCount, $finishedCount, $isFinished;
+    public $telaah;
 
     public function mount(): void
     {
+        // $this->telaah = TransaksiTiketStatus::
         $this->submissionCount = Ticket::where('user_id', Auth::user()->id)
             ->where('submission', '!=', null)
             ->count();
@@ -26,9 +29,9 @@ class Index extends Component
             ->where('research', '!=', null)
             ->count();
 
-        $this->responseCount = Ticket::where('user_id', Auth::user()->id)
-            ->where('response', '!=', null)
-            ->count();
+        // $this->responseCount = Ticket::where('user_id', Auth::user()->id)
+        //     ->where('response', '!=', null)
+        //     ->count();
 
         $this->finishedCount = Ticket::where('user_id', Auth::user()->id)
             ->where('finished', '!=', null)

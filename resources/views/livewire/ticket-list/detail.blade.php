@@ -251,8 +251,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">{{ $ticket->title }}</p>
-                                            <p class="lead mx-5">{{ $ticket->desc }}</p>
+                                            <p class="h3 text-center">{{ $ticket->judul }}</p>
+                                            <p class="lead mx-5">{{ $ticket->deskripsi }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -277,28 +277,29 @@
                                     <p class="h3 text-center">Tiket Histori</p>
                                     <hr class="horizontal dark">
                                     <div class="tracking-list">
-                                        @if ($ticket->submission)
-                                            <div class="tracking-item">
-                                                <div class="tracking-icon status-intransit">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                        data-prefix="fas" data-icon="circle" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        data-fa-i2svg="">
-                                                        <path fill="currentColor"
-                                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                        </path>
-                                                    </svg>
-                                                    <!-- <i class="fas fa-circle"></i> -->
-                                                </div>
-                                                <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                                <div class="tracking-content">
-                                                    <p class="h6">Pengajuan</p>
-                                                    <p>{{ $user->user->name }}</p>
-                                                </div>
+                                        <div class="tracking-item">
+                                            <div class="tracking-icon status-intransit">
+                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
+                                                    data-prefix="fas" data-icon="circle" role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                                    data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
+                                                    </path>
+                                                </svg>
+                                                <!-- <i class="fas fa-circle"></i> -->
                                             </div>
-                                        @endif
+                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
+                                            <div class="tracking-content">
+                                                <p class="h6">Pengajuan</p>
+                                                <p>{{ $user->user->name }}</p>
+                                            </div>
+                                        </div>
+                                        {{-- @if ($ticket->submission)
 
-                                        @if ($ticket->research)
+                                        @endif --}}
+
+                                        {{-- @if ($ticket->research)
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
                                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
@@ -317,9 +318,9 @@
                                                     <p>Tim Deswas</p>
                                                 </div>
                                             </div>
-                                        @endif
+                                        @endif --}}
 
-                                        @if ($ticket->response)
+                                        {{-- @if ($ticket->response)
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
                                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
@@ -338,7 +339,7 @@
                                                     <p>Tim Deswas</p>
                                                 </div>
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>

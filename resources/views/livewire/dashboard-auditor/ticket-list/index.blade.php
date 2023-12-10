@@ -38,7 +38,7 @@
                                                 <td>
                                                     <div class="mx-3">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $t->title }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $t->judul }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -61,9 +61,9 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>{{ $t->submission }}</td>
+                                                                <td>{{ $t->pengajuan }}</td>
                                                                 <td>{{ $t->research ?? 'Belum di telaah' }}</td>
-                                                                <td>{{ $t->response ?? 'Belum di tanggapi' }}</td>
+                                                                <td>{{ 'Belum di tanggapi' }}</td>
                                                                 <td>{{ $t->finished ?? 'Tiket belum selesai' }}</td>
                                                             </tr>
                                                         </tbody>

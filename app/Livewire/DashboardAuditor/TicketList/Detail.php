@@ -4,7 +4,8 @@ namespace App\Livewire\DashboardAuditor\TicketList;
 
 use App\Models\Ticket;
 use App\Models\TicketChat;
-use App\Models\User;
+use App\Models\TransaksiTiket;
+use App\Models\TransaksiTiketChat;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -12,16 +13,21 @@ use Livewire\Component;
 class Detail extends Component
 {
     public $ticket, $getChat, $ticketChat, $chatPerson;
-    public $researchName;
+    public $researchName, $getProses;
 
     public function mount($id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = TransaksiTiket::find($id)
+            ->with(['user', 'kategori'])
+            ->where('id', $id)
+            ->get();
         $this->ticket = json_decode($ticket);
 
         $rname = Ticket::getUserResearch();
         $this->researchName = $rname;
-        $getChats = TicketChat::with('ticket')->where('ticket_id', $id)
+
+        $getChats = TransaksiTiketChat::with('tiket')
+            ->where('id_transaksi_tiket', $id)
             ->get();
         $this->chatPerson = $getChats;
     }
@@ -30,29 +36,33 @@ class Detail extends Component
     {
         return view('livewire.dashboard-auditor.ticket-list.detail', [
             'ticket' => $this->ticket,
-            'user' => Ticket::with('user')
-                ->first(),
-            'research' => $this->researchName,
+            'user' => TransaksiTiket::with('user')
+                ->get(),
+            'proses' => $this->getProses,
             'chat' => $this->chatPerson
         ]);
     }
 
     public function telaah($id)
     {
-        Ticket::where('id', $id)
+        TransaksiTiket::where('id', $id)
             ->update([
-                'research' => Carbon::now(),
-                'user_research' => Auth::user()->id
+                'telaah' => Carbon::now(),
+                'user_telaah' => Auth::user()->id
             ]);
 
         toast('Tiket di Telaah.', 'success');
-        $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
+        $this->redirectRoute('dashboard.auditor.detail', [
+            'id' => $id
+        ]);
     }
 
     public function firstLayer($id)
     {
-        Ticket::where('id', $id)
-            ->update(['risk' => 'Rendah']);
+        TransaksiTiket::where('id', $id)
+            ->update([
+                'resiko' => 'Rendah'
+            ]);
 
         toast('Pertanyaan diajukan untuk Layer 1', 'success');
         $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
@@ -60,19 +70,28 @@ class Detail extends Component
 
     public function secondLayer($id)
     {
-        Ticket::where('id', $id)
-            ->update(['risk' => 'Tinggi', 'layers' => 2]);
+        TransaksiTiket::where('id', $id)
+            ->update([
+                'resiko' => 'Tinggi',
+                'layers' => 2
+            ]);
 
         toast('Pertanyaan diajukan untuk Layer 2', 'success');
-        $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
+        $this->redirectRoute('dashboard.auditor.detail', [
+            'id' => $id
+        ]);
     }
 
     public function chat($id)
     {
-        TicketChat::where('ticket_id', $id)
-            ->update(['chat' => $this->getChat]);
+        TransaksiTiketChat::where('id_transaksi_tiket', $id)
+            ->update([
+                'chat' => $this->getChat
+            ]);
 
         toast('Tanggapan sudah di kirim', 'success');
-        $this->redirectRoute('dashboard.auditor.detail', ['id' => $id]);
+        $this->redirectRoute('dashboard.auditor.detail', [
+            'id' => $id
+        ]);
     }
 }
