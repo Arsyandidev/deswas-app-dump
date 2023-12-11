@@ -57,9 +57,9 @@
             background-color: #214977
         }
 
-        .tracking-list {
-            border: 1px solid #e5e5e5
-        }
+        /* .tracking-list {
+                                                                                                    border: 1px solid #e5e5e5
+                                                                                                } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -284,6 +284,7 @@
                                 <div id="tracking">
                                     <p class="h3 text-center">Tiket Histori</p>
                                     <hr class="horizontal dark">
+                                    <hr class="horizontal dark">
                                     <div class="tracking-list">
                                         <div class="tracking-item">
                                             <div class="tracking-icon status-intransit">
@@ -291,7 +292,7 @@
                                                     data-prefix="fas" data-icon="circle" role="img"
                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                                                     data-fa-i2svg="">
-                                                    <path fill="currentColor"
+                                                    <path fill="#5e72e4"
                                                         d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
                                                     </path>
                                                 </svg>
@@ -307,14 +308,14 @@
 
                                         @endif --}}
 
-                                        {{-- @if ($ticket->research)
+                                        @if ($ticket->telaah != null)
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
                                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
                                                         data-prefix="fas" data-icon="circle" role="img"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                                                         data-fa-i2svg="">
-                                                        <path fill="currentColor"
+                                                        <path fill="#fb6340"
                                                             d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
                                                         </path>
                                                     </svg>
@@ -326,16 +327,16 @@
                                                     <p>Tim Deswas</p>
                                                 </div>
                                             </div>
-                                        @endif --}}
+                                        @endif
 
-                                        {{-- @if ($ticket->response)
+                                        @if ($ticket->jawaban != null)
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
                                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
                                                         data-prefix="fas" data-icon="circle" role="img"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                                                         data-fa-i2svg="">
-                                                        <path fill="currentColor"
+                                                        <path fill="#11cdef"
                                                             d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
                                                         </path>
                                                     </svg>
@@ -347,7 +348,7 @@
                                                     <p>Tim Deswas</p>
                                                 </div>
                                             </div>
-                                        @endif --}}
+                                        @endif
                                     </div>
                                 </div>
                             </div>

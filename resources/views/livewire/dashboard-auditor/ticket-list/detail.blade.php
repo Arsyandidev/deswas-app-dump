@@ -57,9 +57,9 @@
             background-color: #214977
         }
 
-        .tracking-list {
-            border: 1px solid #e5e5e5
-        }
+        /* .tracking-list {
+                border: 1px solid #e5e5e5
+            } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
