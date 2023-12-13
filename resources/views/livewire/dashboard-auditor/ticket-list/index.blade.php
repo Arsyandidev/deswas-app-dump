@@ -17,25 +17,25 @@
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
-                                @forelse ($ticket as $t)
-                                    <table class="table align-items-center mb-0">
-                                        <thead>
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Pertanyaan</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Tingkat Kesulitan</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Status</th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($ticket as $t)
                                             <tr>
-                                                <th
-                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Pertanyaan</th>
-                                                <th
-                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                    Batas Waktu Responden</th>
-                                                <th
-                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Status</th>
-                                                <th class="text-secondary opacity-7"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
+                                                <td style="text-wrap: wrap">
                                                     <div class="mx-3">
                                                         <div class="d-flex flex-column justify-content-center">
                                                             <h6 class="mb-0 text-sm">{{ $t->judul }}</h6>
@@ -78,16 +78,18 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                @empty
-                                    <div class="container">
-                                        <div class="alert alert-warning" role="alert">
-                                            <strong>Kosong!</strong> Belum ada Tiket Pertanyaan.
-                                        </div>
-                                    </div>
-                                @endforelse
+                                        @empty
+                                            <div class="container">
+                                                <div class="alert alert-warning text-white text-center" role="alert">
+                                                    <strong>Kosong!</strong> Tiket pertanyaan belum dibuat.
+                                                </div>
+                                            </div>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
+                            <hr class="horizontal dark">
+                            {{ $ticket->links('components.pagination-links') }}
                         </div>
                     </div>
                 </div>

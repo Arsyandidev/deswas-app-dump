@@ -2,7 +2,6 @@
 
 namespace App\Livewire\DashboardAuditor\TicketList;
 
-use App\Models\Ticket;
 use App\Models\TransaksiTiket;
 use Livewire\Component;
 
@@ -12,7 +11,8 @@ class Index extends Component
     {
         return view('livewire.dashboard-auditor.ticket-list.index', [
             'ticket'    => TransaksiTiket::with('kategori')
-                ->paginate(3)
+                ->orderBy('id', 'desc')
+                ->paginate(5)
         ]);
     }
 }

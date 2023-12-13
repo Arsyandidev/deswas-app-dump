@@ -14,7 +14,8 @@ class Index extends Component
         return view('livewire.ticket-list.index', [
             'ticket' => TransaksiTiket::with('kategori')
                 ->where('user_id', Auth::user()->id)
-                ->paginate(3)
+                ->orderBy('id', 'desc')
+                ->paginate(5)
         ]);
     }
 }

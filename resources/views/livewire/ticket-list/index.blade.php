@@ -33,9 +33,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($ticket as $t)
+                                        @forelse ($ticket as $t)
                                             <tr>
-                                                <td>
+                                                <td style="text-wrap: wrap">
                                                     <div class="mx-3">
                                                         <div class="d-flex flex-column justify-content-center">
                                                             <h6 class="mb-0 text-sm">{{ $t->judul }}</h6>
@@ -51,9 +51,12 @@
                                                             <tr>
                                                                 <th class="bg-gradient-primary text-white">Pengajuan
                                                                 </th>
-                                                                <th class="bg-gradient-warning text-white">Telaah</th>
-                                                                <th class="bg-gradient-info text-white">Tanggapan</th>
-                                                                <th class="bg-gradient-success text-white">Selesai</th>
+                                                                <th class="bg-gradient-warning text-white">Telaah
+                                                                </th>
+                                                                <th class="bg-gradient-info text-white">Tanggapan
+                                                                </th>
+                                                                <th class="bg-gradient-success text-white">Selesai
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -67,19 +70,26 @@
                                                     </table>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <a href="/dashboard/ticket-list/detail/{{ $t->id }}"
-                                                        wire:navigate
+                                                    <a href="{{ route('dashboard.detail', $t->id) }}" wire:navigate
                                                         class="btn btn-sm text-secondary font-weight-bold text-md"
                                                         data-toggle="tooltip" data-original-title="Edit user">
                                                         Detail
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <div class="container">
+                                                <div class="alert alert-warning text-white text-center" role="alert">
+                                                    <strong>Kosong!</strong> Tiket pertanyaan belum dibuat.
+                                                </div>
+                                            </div>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <hr class="horizontal dark">
+                        {{ $ticket->links('components.pagination-links') }}
                     </div>
                 </div>
             </div>

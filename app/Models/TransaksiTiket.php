@@ -19,13 +19,13 @@ class TransaksiTiket extends Model
         'user_id'
     ];
 
-    public static function getNamaPengajuan()
+    public static function getNamaTelaah()
     {
         $query = DB::table('transaksi_tiket')
             ->distinct()
-            ->join('users', 'transaksi_tiket.user_id', '=', 'users.id')
+            ->join('users', 'transaksi_tiket.user_telaah', '=', 'users.id')
             ->pluck('users.name');
-        return $query;
+        return $query[0];
     }
 
     /**

@@ -57,9 +57,9 @@
             background-color: #214977
         }
 
-        .tracking-list {
-            border: 1px solid #e5e5e5
-        }
+        /* .tracking-list {
+                                    border: 1px solid #e5e5e5
+                                } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -282,37 +282,44 @@
                                                     <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
                                                 </div>
                                             @endif
-                                            <button wire:click.prevent="setuju({{ $t->id }})"
-                                                class="btn btn-primary btn-sm">Setuju</button>
-                                            <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">Ubah</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Modal
-                                                                title</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            ...
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn bg-gradient-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <button type="button"
-                                                                class="btn bg-gradient-primary">Save
-                                                                changes</button>
+                                            @if ($t->setuju == 1)
+                                                <div class="alert alert-success text-white text-center" role="alert">
+                                                    <strong>Success!</strong> Jawaban sudah di setujui.
+                                                </div>
+                                            @else
+                                                <button wire:click.prevent="setuju({{ $t->id }})"
+                                                    class="btn btn-primary btn-sm">Setuju</button>
+                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">Ubah</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Modal
+                                                                    title</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                ...
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button"
+                                                                    class="btn bg-gradient-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="button"
+                                                                    class="btn bg-gradient-primary">Save
+                                                                    changes</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <button type="button" class="btn btn-danger btn-sm">Tolak</button>
+                                                <button type="button" class="btn btn-danger btn-sm">Tolak</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -320,72 +327,110 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="tracking">
-                                    <p class="h3 text-center">Tiket Histori</p>
-                                    <div class="tracking-list">
-                                        <div class="tracking-item">
-                                            <div class="tracking-icon status-intransit">
-                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                    data-prefix="fas" data-icon="circle" role="img"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                    data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                    </path>
-                                                </svg>
-                                                <!-- <i class="fas fa-circle"></i> -->
-                                            </div>
-                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                            <div class="tracking-content">
-                                                <p class="h6">Pengajuan</p>
-                                                <p>{{ $t->user->name }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="tracking-item">
-                                            <div class="tracking-icon status-intransit">
-                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                    data-prefix="fas" data-icon="circle" role="img"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                    data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                    </path>
-                                                </svg>
-                                                <!-- <i class="fas fa-circle"></i> -->
-                                            </div>
-                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                            <div class="tracking-content">
-                                                <p class="h6">Pengajuan</p>
-                                            </div>
-                                        </div>
-
-                                        {{-- @if ($t->research)
-                                            <div class="tracking-item">
-                                                <div class="tracking-icon status-intransit">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                        data-prefix="fas" data-icon="circle" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        data-fa-i2svg="">
-                                                        <path fill="currentColor"
-                                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                        </path>
-                                                    </svg>
-                                                    <!-- <i class="fas fa-circle"></i> -->
-                                                </div>
-                                                <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                                <div class="tracking-content">
-                                                    <p class="h6">Telaah</p>
-                                                    <p>{{ $research ?? '-' }}</p>
-                                                </div>
-                                            </div>
-                                        @endif --}}
+                        <div class="card h-100 mb-4">
+                            <div class="card-header pb-0 px-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-0">Tiket Transaksi</h6>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                        <i class="far fa-calendar-alt me-2"></i>
+                                        <small>23 - 30 March 2020</small>
                                     </div>
                                 </div>
                             </div>
-                            <hr class="horizontal dark">
-                            <div class="card-footer">
+                            <div class="card-body pt-4 p-3">
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Informasi</h6>
+                                <ul class="list-group">
+                                    <li
+                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button
+                                                class="btn btn-icon-only btn-rounded btn-outline-info mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                    class="fab fa-buromobelexperte	"></i></button>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">Kategori</h6>
+                                                <span class="text-xs">{{ $t->kategori->name }}
+                                                    ({{ $t->kategori->deskripsi }})
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Linimasa</h6>
+                                <ul class="list-group">
+                                    <li
+                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button
+                                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                    class="fas fa-arrow-up"></i></button>
+                                            <div class="d-flex flex-column">
+                                                @foreach ($user as $u)
+                                                    <h6 class="mb-1 text-dark text-sm">{{ $u->user->name }}</h6>
+                                                @endforeach
+                                                <span class="text-xs">{{ $t->pengajuan }}</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                            Pengajuan
+                                        </div>
+                                    </li>
+                                    @if ($t->telaah != null)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-arrow-up"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">{{ $telaahName }}</h6>
+                                                    <span class="text-xs">{{ $t->telaah }}</span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                Telaah
+                                            </div>
+                                        </li>
+                                    @endif
+                                    @if ($t->jawaban != null)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-exclamation"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    <span class="text-xs">Pertanyaan sudah di Jawab, menunggu
+                                                        persetujuan dari Inspektur</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                    @if ($t->jawaban != null && $t->setuju == 1)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-arrow-up"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    <span class="text-xs">{{ $t->jawaban }}</span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                Jawaban
+                                            </div>
+                                        </li>
+                                    @endif
+                                </ul>
+                                <hr class="horizontal dark">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
                                     @if ($t->telaah == null)
                                         <button wire:click.prevent="telaah({{ $t->id }})"

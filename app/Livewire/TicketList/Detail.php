@@ -4,21 +4,27 @@ namespace App\Livewire\TicketList;
 
 use App\Models\Ticket;
 use App\Models\TransaksiTiket;
+use App\Models\TransaksiTiketChat;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Detail extends Component
 {
     public $ticket;
-    public $researchName;
+    public $chatPerson;
 
     public function mount($id)
     {
-        $get = TransaksiTiket::find($id);
-        $this->ticket = json_decode($get);
+        $ticket = TransaksiTiket::find($id)
+            ->with(['user', 'kategori'])
+            ->where('id', $id)
+            ->get();
+        $this->ticket = json_decode($ticket);
 
-        $rname = Ticket::getUserResearch();
-        $this->researchName = $rname;
+        $getChats = TransaksiTiketChat::with('tiket')
+            ->where('id_transaksi_tiket', $id)
+            ->get();
+        $this->chatPerson = $getChats;
     }
 
     public function render()
@@ -28,7 +34,7 @@ class Detail extends Component
             'user' => TransaksiTiket::with('user')
                 ->where('user_id', Auth::user()->id)
                 ->first(),
-            'research' => $this->researchName
+            'chat' => $this->chatPerson
         ]);
     }
 }

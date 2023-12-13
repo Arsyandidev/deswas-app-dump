@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                    border: 1px solid #e5e5e5
-                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -188,71 +188,26 @@
                             <h5 class="mb-1">
                                 {{ Auth::user()->name }}
                             </h5>
-                            <p class="mb-0 font-weight-bold text-sm">
-                                Public Relations
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                        <div class="nav-wrapper position-relative end-0">
-                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                                        <i class="ni ni-app"></i>
-                                        <span class="ms-2">App</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                        <i class="ni ni-email-83"></i>
-                                        <span class="ms-2">Messages</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                        <i class="ni ni-settings-gear-65"></i>
-                                        <span class="ms-2">Settings</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid py-4">
+        @foreach ($ticket as $t)
             <div class="container-fluid py-4">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <p class="text-uppercase text-sm">Tiket Informasi</p>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <p class="h6">Kategori Tiket: lorem</p>
-                                            <p class="h6">Tingkat Kesulitan: Rendah</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Tanggal dan
-                                                Waktu</label>
-                                            <p class="h6"></p>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <hr class="horizontal dark">
-                                <p class="text-uppercase text-sm">Detil Tiket</p>
+                                <p class="text-uppercase text-sm">Isi Tiket</p>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">{{ $ticket->judul }}</p>
-                                            <p class="lead mx-5">{{ $ticket->deskripsi }}</p>
+                                            <p class="h3 text-center">{{ $t->judul }}</p>
+                                            <p class="lead mx-5">{{ $t->deskripsi }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -261,16 +216,23 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            @if ($ticket->jawaban == null)
+                                            @if ($t->jawaban == null)
                                                 <div class="alert alert-info text-white text-center" role="alert">
                                                     <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
                                                 </div>
                                             @endif
-                                            @if ($ticket->jawaban != null)
+                                            @if ($t->jawaban != null && $t->setuju == 0)
                                                 <div class="alert alert-warning text-white text-center" role="alert">
                                                     <strong>Perhatian!</strong> Pertanyaan sudah di tanggapi. <br>
                                                     Menunggu persetujuan dari Inspektur.
                                                 </div>
+                                            @endif
+                                            @if ($t->jawaban != null && $t->setuju == 1)
+                                                @foreach ($chat as $c)
+                                                    <div class="alert alert-light" role="alert">
+                                                        {{ $c->chat }}
+                                                    </div>
+                                                @endforeach
                                             @endif
                                         </div>
                                     </div>
@@ -279,85 +241,130 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="tracking">
-                                    <p class="h3 text-center">Tiket Histori</p>
-                                    <hr class="horizontal dark">
-                                    <hr class="horizontal dark">
-                                    <div class="tracking-list">
-                                        <div class="tracking-item">
-                                            <div class="tracking-icon status-intransit">
-                                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                    data-prefix="fas" data-icon="circle" role="img"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                    data-fa-i2svg="">
-                                                    <path fill="#5e72e4"
-                                                        d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                    </path>
-                                                </svg>
-                                                <!-- <i class="fas fa-circle"></i> -->
-                                            </div>
-                                            <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                            <div class="tracking-content">
-                                                <p class="h6">Pengajuan</p>
-                                                <p>{{ $user->user->name }}</p>
-                                            </div>
-                                        </div>
-                                        {{-- @if ($ticket->submission)
-
-                                        @endif --}}
-
-                                        @if ($ticket->telaah != null)
-                                            <div class="tracking-item">
-                                                <div class="tracking-icon status-intransit">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                        data-prefix="fas" data-icon="circle" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        data-fa-i2svg="">
-                                                        <path fill="#fb6340"
-                                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                        </path>
-                                                    </svg>
-                                                    <!-- <i class="fas fa-circle"></i> -->
-                                                </div>
-                                                <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                                <div class="tracking-content">
-                                                    <p class="h6">Telaah</p>
-                                                    <p>Tim Deswas</p>
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        @if ($ticket->jawaban != null)
-                                            <div class="tracking-item">
-                                                <div class="tracking-icon status-intransit">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true"
-                                                        data-prefix="fas" data-icon="circle" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        data-fa-i2svg="">
-                                                        <path fill="#11cdef"
-                                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                                        </path>
-                                                    </svg>
-                                                    <!-- <i class="fas fa-circle"></i> -->
-                                                </div>
-                                                <div class="tracking-date">Aug 10, 2018<span>05:01 PM</span></div>
-                                                <div class="tracking-content">
-                                                    <p class="h6">Tanggapan</p>
-                                                    <p>Tim Deswas</p>
-                                                </div>
-                                            </div>
-                                        @endif
+                        <div class="card h-100 mb-4">
+                            <div class="card-header pb-0 px-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-0">Tiket Transaksi</h6>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                        <i class="far fa-calendar-alt me-2"></i>
+                                        <small>23 - 30 March 2020</small>
                                     </div>
                                 </div>
                             </div>
-                            <hr class="horizontal dark">
-                            <div class="card-footer">
-                                <p class="h6 text-center">Tiket dalam progres</p>
+                            <div class="card-body pt-4 p-3">
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Informasi</h6>
+                                <ul class="list-group">
+                                    <li
+                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button
+                                                class="btn btn-icon-only btn-rounded btn-outline-info mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                    class="fab fa-buromobelexperte	"></i></button>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">Kategori</h6>
+                                                <span class="text-xs">{{ $t->kategori->name }}
+                                                    ({{ $t->kategori->deskripsi }})
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                                <hr class="horizontal dark">
+                                <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Linimasa</h6>
+                                <ul class="list-group">
+                                    <li
+                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                        <div class="d-flex align-items-center">
+                                            <button
+                                                class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                    class="fas fa-arrow-up"></i></button>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-1 text-dark text-sm">{{ $user->user->name }}</h6>
+                                                <span class="text-xs">{{ $t->pengajuan }}</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                            Pengajuan
+                                        </div>
+                                    </li>
+                                    @if ($t->telaah != null)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-arrow-up"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    <span class="text-xs">{{ $t->telaah }}</span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                Telaah
+                                            </div>
+                                        </li>
+                                    @endif
+                                    @if ($t->jawaban != null)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-exclamation"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    <span class="text-xs">Pertanyaan sudah di Jawab, menunggu
+                                                        persetujuan dari Inspektur</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                    @if ($t->jawaban != null && $t->setuju == 1)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fas fa-arrow-up"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    <span class="text-xs">{{ $t->jawaban }}</span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                                Jawaban
+                                            </div>
+                                        </li>
+                                    @endif
+                                </ul>
+                                <hr class="horizontal dark">
+                                @if ($t->setuju == 0)
+                                    <div class="alert alert-secondary text-white text-center role="alert">
+                                        Tiket dalam Proses
+                                    </div>
+                                @endif
+                                @if ($t->setuju == 1)
+                                    <div class="container ">
+                                        <center>
+                                            <button type="button" class="btn btn-primary btn-sm">Pertanyaan
+                                                Baru</button>
+                                            <button type="button" class="btn bg-gradient-info btn-sm">Pertanyaan
+                                                Terkait</button>
+                                            <button type="button"
+                                                class="btn bg-gradient-success btn-sm w-95">Selesai</button>
+                                        </center>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        @endforeach
     </main>

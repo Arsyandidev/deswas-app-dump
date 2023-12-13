@@ -17,6 +17,8 @@
         <!-- CSS Files -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet"
             data-navigate-track />
+        <link href="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css" rel="stylesheet">
+
         @stack('css')
     </head>
 

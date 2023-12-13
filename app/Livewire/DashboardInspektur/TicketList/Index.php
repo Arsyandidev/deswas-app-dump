@@ -11,7 +11,8 @@ class Index extends Component
     {
         return view('livewire.dashboard-inspektur.ticket-list.index', [
             'ticket'    => TransaksiTiket::with('kategori')
-                ->paginate(3)
+                ->orderBy('id', 'desc')
+                ->paginate(5)
         ]);
     }
 }
