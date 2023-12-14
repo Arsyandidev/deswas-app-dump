@@ -8,17 +8,21 @@ use App\Models\TicketCategory;
 use App\Models\TicketChat;
 use App\Models\TransaksiTiket;
 use App\Models\TransaksiTiketChat;
+use App\Models\TransaksiTiketFile;
 use App\Models\TransaksiTiketProses;
 use App\Models\TransaksiTiketStatus;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $kategori, $user_id;
-    public $judul, $deskripsi;
+    public $judul, $deskripsi, $gambar;
     public $pengajuan, $telaah, $jawaban, $selesai;
 
     public function rules(): array
@@ -26,8 +30,16 @@ class Create extends Component
         return [
             'kategori'      => ['required'],
             'judul'         => ['required'],
-            'deskripsi'     => ['required']
+            'deskripsi'     => ['required'],
+            'gambar'        => ['nullable', 'sometimes'],
         ];
+    }
+
+    private function resetInput()
+    {
+        $this->judul = null;
+        $this->deskripsi = null;
+        $this->gambar = null;
     }
 
     public function render()
@@ -58,8 +70,14 @@ class Create extends Component
             TransaksiTiketStatus::create([
                 'id_transaksi_tiket' => $ticket->id
             ]);
-        }
 
+            $filename = $this->gambar ? time() . '.' . $this->gambar->getClientOriginalExtension() : null;
+            TransaksiTiketFile::create([
+                'id_transaksi_tiket' => $ticket->id,
+                'path'               => $this->gambar ? $this->gambar->storeAs('path', $filename, 'public') : null,
+            ]);
+        }
+        $this->resetInput();
         toast('Berhasil membuat tiket pertanyaan.', 'success');
 
         return redirect()

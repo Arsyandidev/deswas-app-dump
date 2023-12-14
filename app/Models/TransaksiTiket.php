@@ -25,7 +25,7 @@ class TransaksiTiket extends Model
             ->distinct()
             ->join('users', 'transaksi_tiket.user_telaah', '=', 'users.id')
             ->pluck('users.name');
-        return $query[0];
+        return $query;
     }
 
     /**

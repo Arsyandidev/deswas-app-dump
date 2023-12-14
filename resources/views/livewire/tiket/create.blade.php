@@ -60,6 +60,42 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Gambar</label>
+                                            <input wire:model="gambar" accept="image/png, image/jpeg"
+                                                class="form-control @error('gambar') is-invalid @enderror"
+                                                type="file">
+                                            @error('gambar')
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">File</label>
+                                            <input wire:model="gambar" accept="image/png, image/jpeg"
+                                                class="form-control @error('gambar') is-invalid @enderror"
+                                                type="file">
+                                            @error('gambar')
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @if ($gambar)
+                                        <div class="container">
+                                            <label for="example-text-input" class="form-control-label">Review
+                                                gambar: </label> <br>
+                                            <img class="img-thumbnail w-50" src="{{ $gambar->temporaryUrl() }}"
+                                                alt=""> <br>
+                                            <label for="example-text-input" class="form-control-label">Tipe:
+                                                {{ $gambar->getMimeType() }}</label>
+                                        </div>
+                                    @endif
 
                                 </div>
                                 <hr class="horizontal dark">

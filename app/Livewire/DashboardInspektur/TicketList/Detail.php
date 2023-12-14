@@ -9,7 +9,7 @@ use Livewire\Component;
 class Detail extends Component
 {
     public $ticket, $getChat, $ticketChat, $chatPerson;
-    public $researchName, $getProses, $getUser, $getTelaah;
+    public $getProses, $getUser, $ubahChat;
 
     public function mount($id)
     {
@@ -48,6 +48,20 @@ class Detail extends Component
                 'setuju' => 1
             ]);
         toast('Pertanyaan berhasil di setujui', 'success');
-        return redirect()->route('dashboard.inspektur.ticket-list');
+        $this->redirectRoute('dashboard.inspektur.detail', [
+            'id' => $id
+        ]);
+    }
+
+    public function ubah($id)
+    {
+        TransaksiTiketChat::where('id_transaksi_tiket', $id)
+            ->update([
+                'chat' => $this->ubahChat
+            ]);
+
+        $this->redirectRoute('dashboard.inspektur.detail', [
+            'id' => $id
+        ]);
     }
 }

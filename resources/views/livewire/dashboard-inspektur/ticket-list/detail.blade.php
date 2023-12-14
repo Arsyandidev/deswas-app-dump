@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                    border: 1px solid #e5e5e5
-                                } */
+                                                                                                                border: 1px solid #e5e5e5
+                                                                                                            } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -188,36 +188,6 @@
                             <h5 class="mb-1">
                                 {{ Auth::user()->name }}
                             </h5>
-                            <p class="mb-0 font-weight-bold text-sm">
-                                Public Relations
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                        <div class="nav-wrapper position-relative end-0">
-                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                                        <i class="ni ni-app"></i>
-                                        <span class="ms-2">App</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                        <i class="ni ni-email-83"></i>
-                                        <span class="ms-2">Messages</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center "
-                                        data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                        <i class="ni ni-settings-gear-65"></i>
-                                        <span class="ms-2">Settings</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -230,32 +200,6 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <p class="text-uppercase text-sm">Tiket Informasi</p>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <p class="h5"><i class="ni ni-archive-2"></i> {{ $t->kategori->name }}
-                                            </p>
-                                            <p class="h6">Tingkat Kesulitan:
-                                                @if ($t->resiko == 'Rendah')
-                                                    <span
-                                                        class="badge badge-sm bg-gradient-success">{{ $t->resiko }}</span>
-                                                @else
-                                                    <span
-                                                        class="badge badge-sm bg-gradient-danger">{{ $t->resiko }}</span>
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Tanggal dan
-                                                Waktu</label>
-                                            <p class="h6">{{ $t->created_at }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <hr class="horizontal dark">
                                 <p class="text-uppercase text-sm">Detil Tiket</p>
                                 <div class="row">
@@ -296,25 +240,33 @@
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Modal
-                                                                    title</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                ...
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button"
-                                                                    class="btn bg-gradient-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                                <button type="button"
-                                                                    class="btn bg-gradient-primary">Save
-                                                                    changes</button>
-                                                            </div>
+                                                            <form wire:submit.prevent="ubah({{ $t->id }})">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        @foreach ($chat as $c)
+                                                                            <label
+                                                                                for="exampleFormControlInput1">Jawaban
+                                                                                Auditor</label>
+                                                                            <input wire:model="ubahChat" type="text"
+                                                                                class="form-control">
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                        class="btn bg-gradient-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"
+                                                                        class="btn bg-gradient-primary">Save
+                                                                        changes</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -404,7 +356,6 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-exclamation"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
                                                     <span class="text-xs">Pertanyaan sudah di Jawab, menunggu
                                                         persetujuan dari Inspektur</span>
                                                 </div>

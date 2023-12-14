@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -208,6 +208,15 @@
                                         <div class="form-group">
                                             <p class="h3 text-center">{{ $t->judul }}</p>
                                             <p class="lead mx-5">{{ $t->deskripsi }}</p>
+                                            @foreach ($file as $f)
+                                                <a class=" mx-5 btn  btn-outline-primary"
+                                                    href="{{ asset('storage/' . $f->path) }}" target="_blank">
+                                                    <span class="btn-inner--icon"><i class="ni ni-album-2"></i></span>
+                                                    <span class="mx-1">{{ $f->path }}</span>
+                                                </a>
+                                            @endforeach
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +308,6 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
                                                     <span class="text-xs">{{ $t->telaah }}</span>
                                                 </div>
                                             </div>
@@ -317,7 +325,6 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-exclamation"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
                                                     <span class="text-xs">Pertanyaan sudah di Jawab, menunggu
                                                         persetujuan dari Inspektur</span>
                                                 </div>
