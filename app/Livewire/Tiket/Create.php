@@ -71,12 +71,14 @@ class Create extends Component
                 'id_transaksi_tiket' => $ticket->id
             ]);
 
-            $filename = $this->gambar ? time() . '.' . $this->gambar->getClientOriginalExtension() : null;
+            $filename = $this->gambar ? $this->gambar->getClientOriginalName() : null;
             TransaksiTiketFile::create([
-                'id_transaksi_tiket' => $ticket->id,
-                'path'               => $this->gambar ? $this->gambar->storeAs('path', $filename, 'public') : null,
+                'id_transaksi_tiket'    => $ticket->id,
+                'path'                  => $this->gambar ? $this->gambar->storeAs('path', $filename, 'public') : null,
+                'type'                  => $this->gambar->getMimeType()
             ]);
         }
+
         $this->resetInput();
         toast('Berhasil membuat tiket pertanyaan.', 'success');
 
