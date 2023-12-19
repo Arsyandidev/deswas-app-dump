@@ -12,6 +12,7 @@ use App\Livewire\Front\Index;
 use App\Livewire\TicketList\Detail as TicketDetail;
 use App\Livewire\TicketList\Index as TicketListIndex;
 use App\Livewire\Tiket\Create as TiketCreate;
+use App\Livewire\TiketTerkait\Index as TiketTerkaitIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Index::class)->name('home');
@@ -25,6 +26,7 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::get('/', DashboardIndex::class)->name('index');
     Route::get('/ticket-list', TicketListIndex::class)->name('ticket-list');
     Route::get('/ticket-list/detail/{id}', TicketDetail::class)->name('detail');
+    Route::get('/tiket-terkait/{id}', TiketTerkaitIndex::class)->name('tiket-terkait');
 
     Route::middleware('auditor')->name('auditor.')->group(function () {
         Route::get('/auditor', DashboardAuditorIndex::class)->name('index');

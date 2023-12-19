@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\Role;
 use App\Models\Ticket;
+use App\Models\TransaksiTiket;
 use App\Models\TransaksiTiketStatus;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -21,31 +22,32 @@ class Index extends Component
     public function mount(): void
     {
         // $this->telaah = TransaksiTiketStatus::
-        $this->submissionCount = Ticket::where('user_id', Auth::user()->id)
-            ->where('submission', '!=', null)
+        $this->submissionCount = TransaksiTiket::where('user_id', Auth::user()->id)
+            ->where('pengajuan', '!=', null)
             ->count();
 
-        $this->researchCount = Ticket::where('user_id', Auth::user()->id)
-            ->where('research', '!=', null)
+        $this->researchCount = TransaksiTiket::where('user_id', Auth::user()->id)
+            ->where('telaah', '!=', null)
             ->count();
 
-        // $this->responseCount = Ticket::where('user_id', Auth::user()->id)
-        //     ->where('response', '!=', null)
-        //     ->count();
-
-        $this->finishedCount = Ticket::where('user_id', Auth::user()->id)
-            ->where('finished', '!=', null)
+        $this->responseCount = TransaksiTiket::where('user_id', Auth::user()->id)
+            ->where('jawaban', '!=', null)
             ->count();
 
-        $categoriTicket = Ticket::select('category_id')->get();
+        $this->finishedCount = TransaksiTiket::where('user_id', Auth::user()->id)
+            ->where('selesai', '!=', null)
+            ->count();
+
+        $categoriTicket = TransaksiTiket::select('kategori')->get();
         $this->getCategory = json_decode($categoriTicket);
     }
 
     public function render()
     {
         return view('livewire.dashboard.index', [
-            'ticket' => Ticket::with(['user', 'category'])
+            'ticket' => TransaksiTiket::with(['user', 'getKategori'])
                 ->where('user_id', Auth::user()->id)
+                ->where('selesai', '!=', null)
                 ->paginate(3),
             'user' => Role::where('id', Auth::user()->role_id)
                 ->first()

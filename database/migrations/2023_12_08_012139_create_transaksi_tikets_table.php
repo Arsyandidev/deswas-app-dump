@@ -33,7 +33,8 @@ return new class extends Migration
             $table->dateTime('jawaban')->nullable();
             $table->dateTime('selesai')->nullable();
             $table->boolean('user_inspektur')->default(0);
-            $table->boolean('setuju')->default(0);
+            $table->boolean('setuju')->nullable();
+            $table->boolean('tolak')->nullable();
             $table->integer('user_id');
             $table->timestamps();
         });

@@ -24,7 +24,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Example select</label>
+                                            <label for="exampleFormControlSelect1">Kategori</label>
                                             <select class="form-control" wire:model="kategori">
                                                 <option>Pilih kategori</option>
                                                 @foreach ($category as $c)
@@ -76,10 +76,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">File</label>
-                                            <input wire:model="gambar" accept="image/png, image/jpeg"
-                                                class="form-control @error('gambar') is-invalid @enderror"
-                                                type="file">
-                                            @error('gambar')
+                                            <input wire:model="file" accept=".doc,.docx,.pdf,.xlsx"
+                                                class="form-control @error('file') is-invalid @enderror" type="file">
+                                            @error('file')
                                                 <div class="alert alert-danger mt-2">
                                                     {{ $message }}
                                                 </div>

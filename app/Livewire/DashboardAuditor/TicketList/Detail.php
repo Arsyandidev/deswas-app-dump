@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DashboardAuditor\TicketList;
 
+use App\Models\ParameterKategori;
 use App\Models\Ticket;
 use App\Models\TicketChat;
 use App\Models\TransaksiTiket;
@@ -13,12 +14,13 @@ use Livewire\Component;
 class Detail extends Component
 {
     public $ticket, $getChat, $ticketChat, $chatPerson;
-    public $researchName, $getProses, $getUser, $getTelaah;
+    public $researchName, $getProses, $getUser, $getTelaah, $getFile;
+    public $ubahJudul, $ubahKategori;
 
     public function mount($id)
     {
         $ticket             = TransaksiTiket::find($id)
-            ->with(['user', 'kategori'])
+            ->with(['user', 'getKategori'])
             ->where('id', $id)
             ->get();
         $this->ticket       = json_decode($ticket);
@@ -35,16 +37,36 @@ class Detail extends Component
             ->where('id', $id)
             ->get();
         $this->getUser = json_decode($user);
+
+        $this->getTelaah = TransaksiTiket::getNamaTelaah($id);
+        $this->getFile = TransaksiTiket::getFile($id);
     }
 
     public function render()
     {
+        $category           =  ParameterKategori::all();
+
         return view('livewire.dashboard-auditor.ticket-list.detail', [
             'ticket'        => $this->ticket,
-            'telaahName'    => TransaksiTiket::getNamaTelaah(),
+            'telaahName'    => $this->getTelaah,
             'user'          => $this->getUser,
             'proses'        => $this->getProses,
-            'chat'          => $this->chatPerson
+            'chat'          => $this->chatPerson,
+            'file'          => $this->getFile,
+            'category'      => json_decode($category)
+        ]);
+    }
+
+    public function ubahJudulForm($id)
+    {
+        TransaksiTiket::where('id', $id)
+            ->update([
+                'judul' => $this->ubahJudul
+            ]);
+
+        toast('Judul berhasil diubah oleh Auditor', 'success');
+        $this->redirectRoute('dashboard.auditor.detail', [
+            'id' => $id
         ]);
     }
 
@@ -52,8 +74,9 @@ class Detail extends Component
     {
         TransaksiTiket::where('id', $id)
             ->update([
-                'telaah' => Carbon::now(),
-                'user_telaah' => Auth::user()->id
+                'telaah'        => Carbon::now(),
+                'user_telaah'   => Auth::user()->id,
+                'kategori'      => $this->ubahKategori
             ]);
 
         toast('Tiket di Telaah.', 'success');

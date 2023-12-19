@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                border: 1px solid #e5e5e5
-                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                            } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -205,8 +205,68 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">{{ $t->judul }}</p>
+                                            <p class="h3 text-center">{{ $t->judul }}
+                                                @if ($t->setuju != 1)
+                                                    <button class="btn btn-sm btn-primary mx-3" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal">Ubah</button>
+                                                @endif
+                                            </p>
+                                            <!-- Modal Ubah Judul -->
+                                            <div class="modal" id="exampleModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Modal
+                                                                title
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form wire:submit="ubahJudulForm({{ $t->id }})">
+                                                            <div class="modal-body">
+                                                                <input wire:model="ubahJudul" class="form-control"
+                                                                    type="text">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn bg-gradient-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button class="btn bg-gradient-primary">Save
+                                                                    changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <p class="lead mx-3">{{ $t->deskripsi }}</p>
+                                            <div class="row mt-5">
+                                                @foreach ($file as $f)
+                                                    <div class="col-sm-12">
+                                                        @if ($f->image)
+                                                            <a class=" mx-5 btn  btn-outline-primary"
+                                                                href="{{ asset('storage/' . $f->image) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->image }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        @if ($f->file)
+                                                            <a class=" mx-5 btn  btn-outline-danger"
+                                                                href="{{ asset('storage/' . $f->file) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->file }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -226,17 +286,19 @@
                                                     <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
                                                 </div>
                                             @endif
-                                            @if ($t->setuju == 1)
+                                            @if ($t->setuju == true)
                                                 <div class="alert alert-success text-white text-center" role="alert">
                                                     <strong>Success!</strong> Jawaban sudah di setujui.
                                                 </div>
-                                            @else
+                                            @endif
+
+                                            @if ($t->setuju == false)
                                                 <button wire:click.prevent="setuju({{ $t->id }})"
                                                     class="btn btn-primary btn-sm">Setuju</button>
                                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal">Ubah</button>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                                <div class="modal" id="exampleModal" tabindex="-1" role="dialog"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
@@ -253,8 +315,8 @@
                                                                             <label
                                                                                 for="exampleFormControlInput1">Jawaban
                                                                                 Auditor</label>
-                                                                            <input wire:model="ubahChat" type="text"
-                                                                                class="form-control">
+                                                                            <input wire:model="ubahChat"
+                                                                                type="text" class="form-control">
                                                                         @endforeach
                                                                     </div>
                                                                 </div>
@@ -270,7 +332,42 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn btn-danger btn-sm">Tolak</button>
+                                                <button type="button"
+                                                    class="btn btn-sm btn-block bg-gradient-danger mb-3"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-notification">Tolak</button>
+                                                <div class="modal" id="modal-notification" tabindex="-1"
+                                                    role="dialog" aria-labelledby="modal-notification"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-danger modal-dialog-centered modal-"
+                                                        role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" id="modal-title-notification">
+                                                                    Dibutuhkan perhatian.</h6>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="py-3 text-center">
+                                                                    <i class="ni ni-bell-55 ni-3x"></i>
+                                                                    <h4 class="text-gradient text-danger mt-4">
+                                                                        Penolakan!</h4>
+                                                                    <p>Apakah anda yakin untuk menolaknya?
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-link ml-auto"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                                <button wire:click="tolak({{ $t->id }})"
+                                                                    class="btn btn-sm bg-gradient-danger">Tolak</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -302,8 +399,8 @@
                                                     class="fab fa-buromobelexperte	"></i></button>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1 text-dark text-sm">Kategori</h6>
-                                                <span class="text-xs">{{ $t->kategori->name }}
-                                                    ({{ $t->kategori->deskripsi }})
+                                                <span class="text-xs">{{ $t->get_kategori->name }}
+                                                    ({{ $t->get_kategori->deskripsi }})
                                                 </span>
                                             </div>
                                         </div>
@@ -338,7 +435,9 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">{{ $telaahName }}</h6>
+                                                    @foreach ($telaahName as $tn)
+                                                        <h6 class="mb-1 text-dark text-sm">{{ $tn->name }}</h6>
+                                                    @endforeach
                                                     <span class="text-xs">{{ $t->telaah }}</span>
                                                 </div>
                                             </div>
@@ -383,19 +482,20 @@
                                 </ul>
                                 <hr class="horizontal dark">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
-                                    @if ($t->telaah == null)
-                                        <button wire:click.prevent="telaah({{ $t->id }})"
-                                            class="btn btn-primary btn-lg w-100">Telaah</button>
+                                    @if ($t->setuju == null && $t->telaah == null)
+                                        <button class="btn btn-primary btn-lg w-100"
+                                            wire:click.prevent="telaah({{ $t->id }})"
+                                            wire:confirm="Apakah mau di telaah?">Telaah</button>
                                     @endif
 
-                                    @if ($t->telaah != null && $t->resiko == null)
+                                    @if ($t->setuju == null && $t->telaah != null && $t->resiko == null)
                                         <button wire:click.prevent="secondLayer({{ $t->id }})"
                                             class="btn btn-danger btn-lg w-100">Layer 2 > (Tinggi)</button>
                                         <button wire:click.prevent="firstLayer({{ $t->id }})"
                                             class="btn btn-info btn-lg w-100">Layer 1 > (Rendah)</button>
                                     @endif
 
-                                    @if ($t->telaah != null && $t->resiko != null)
+                                    @if ($t->setuju == null && $t->telaah != null && $t->resiko != null)
                                         <div class="alert alert-secondary text-white text-center role="alert">
                                             Tiket dalam Proses
                                         </div>

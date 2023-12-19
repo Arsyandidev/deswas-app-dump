@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('transaksi_tiket_file', function (Blueprint $table) {
             $table->id();
             $table->integer('id_transaksi_tiket');
-            $table->string('path')->nullable();
+            $table->string('image')->nullable();
+            $table->string('file')->nullable();
             $table->string('type')->nullable();
             $table->timestamps();
         });

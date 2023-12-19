@@ -62,7 +62,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Status Tanggapan</p>
                                         <h1 class="font-weight-bolder">
-                                            {{-- {{ $responseCount }} --}}
+                                            {{ $responseCount }}
                                         </h1>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                                     <td>
                                                         <div class="text-center">
                                                             <p class="text-xs font-weight-bold mb-0">Kategori:</p>
-                                                            <h6 class="text-sm mb-0">{{ $t->category->name }}</h6>
+                                                            <h6 class="text-sm mb-0">{{ $t->getKategori->name }}</h6>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -195,8 +195,9 @@
                                                 <i class="ni ni-tag text-white opacity-10"></i>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">{{ $t->category->name }}</h6>
-                                                <span class="text-xs">123 closed, <span class="font-weight-bold">15
+                                                <h6 class="mb-1 text-dark text-sm">{{ $t->getKategori->name }}</h6>
+                                                <span class="text-xs">{{ $t->getKategori->deskripsi }}, <span
+                                                        class="font-weight-bold">15
                                                         open</span></span>
                                             </div>
                                         </div>

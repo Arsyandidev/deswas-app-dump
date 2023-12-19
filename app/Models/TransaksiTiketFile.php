@@ -11,7 +11,7 @@ class TransaksiTiketFile extends Model
     use HasFactory;
     protected $table = 'transaksi_tiket_file';
     protected $fillable = [
-        'id_transaksi_tiket', 'path', 'type'
+        'id_transaksi_tiket', 'image', 'file', 'type'
     ];
 
     /**

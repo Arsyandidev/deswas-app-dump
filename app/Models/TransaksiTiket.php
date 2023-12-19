@@ -19,12 +19,21 @@ class TransaksiTiket extends Model
         'user_id'
     ];
 
-    public static function getNamaTelaah()
+    public static function getNamaTelaah($id)
     {
         $query = DB::table('transaksi_tiket')
-            ->distinct()
             ->join('users', 'transaksi_tiket.user_telaah', '=', 'users.id')
-            ->pluck('users.name');
+            ->where('transaksi_tiket.id', '=', $id)
+            ->get();
+        return $query;
+    }
+
+    public static function getFile($id)
+    {
+        $query = DB::table('transaksi_tiket_file')
+            ->join('transaksi_tiket', 'transaksi_tiket_file.id_transaksi_tiket', '=', 'transaksi_tiket.id')
+            ->where('transaksi_tiket_file.id_transaksi_tiket', '=', $id)
+            ->get();
         return $query;
     }
 
@@ -42,7 +51,7 @@ class TransaksiTiket extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function kategori(): BelongsTo
+    public function getKategori(): BelongsTo
     {
         return $this->belongsTo(ParameterKategori::class, 'kategori', 'id');
     }

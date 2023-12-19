@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -205,8 +205,68 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <p class="h3 text-center">{{ $t->judul }}</p>
+                                            <p class="h3 text-center">{{ $t->judul }}
+                                                @if ($t->setuju != 1)
+                                                    <button class="btn btn-sm btn-primary mx-3" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal">Ubah</button>
+                                                @endif
+                                            </p>
+                                            <!-- Modal Ubah Judul -->
+                                            <div class="modal" id="exampleModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Modal
+                                                                title
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form wire:submit="ubahJudulForm({{ $t->id }})">
+                                                            <div class="modal-body">
+                                                                <input wire:model="ubahJudul" class="form-control"
+                                                                    type="text">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn bg-gradient-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button class="btn bg-gradient-primary">Save
+                                                                    changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <p class="lead mx-3">{{ $t->deskripsi }}</p>
+                                            <div class="row mt-5">
+                                                @foreach ($file as $f)
+                                                    <div class="col-sm-12">
+                                                        @if ($f->image)
+                                                            <a class=" mx-5 btn  btn-outline-primary"
+                                                                href="{{ asset('storage/' . $f->image) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->image }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        @if ($f->file)
+                                                            <a class=" mx-5 btn  btn-outline-danger"
+                                                                href="{{ asset('storage/' . $f->file) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->file }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -280,8 +340,8 @@
                                                     class="fab fa-buromobelexperte	"></i></button>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1 text-dark text-sm">Kategori</h6>
-                                                <span class="text-xs">{{ $t->kategori->name }}
-                                                    ({{ $t->kategori->deskripsi }})
+                                                <span class="text-xs">{{ $t->get_kategori->name }}
+                                                    ({{ $t->get_kategori->deskripsi }})
                                                 </span>
                                             </div>
                                         </div>
@@ -316,7 +376,9 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">{{ $telaahName }}</h6>
+                                                    @foreach ($telaahName as $tn)
+                                                        <h6 class="mb-1 text-dark text-sm">{{ $tn->name }}</h6>
+                                                    @endforeach
                                                     <span class="text-xs">{{ $t->telaah }}</span>
                                                 </div>
                                             </div>
@@ -362,6 +424,18 @@
                                 <hr class="horizontal dark">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
                                     @if ($t->telaah == null)
+                                        <form action="">
+                                            <label for="exampleFormControlSelect1">Ubah Kategori</label>
+                                            <select class="form-control mb-2" wire:model="ubahKategori">
+                                                @foreach ($category as $ct)
+                                                    <option value="{{ $ct->id }}"
+                                                        {{ $ct->id == $t->kategori ? 'selected' : '' }}>
+                                                        {{ $ct->name }}
+                                                        ({{ $ct->deskripsi }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </form>
                                         <button wire:click.prevent="telaah({{ $t->id }})"
                                             class="btn btn-primary btn-lg w-100">Telaah</button>
                                     @endif

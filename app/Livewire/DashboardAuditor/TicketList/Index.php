@@ -10,7 +10,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.dashboard-auditor.ticket-list.index', [
-            'ticket'    => TransaksiTiket::with('kategori')
+            'ticket'    => TransaksiTiket::with('getKategori')
                 ->orderBy('id', 'desc')
                 ->paginate(5)
         ]);

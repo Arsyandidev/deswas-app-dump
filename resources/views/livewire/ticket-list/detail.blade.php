@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -200,7 +200,6 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-
                                 <hr class="horizontal dark">
                                 <p class="text-uppercase text-sm">Isi Tiket</p>
                                 <div class="row">
@@ -208,15 +207,32 @@
                                         <div class="form-group">
                                             <p class="h3 text-center">{{ $t->judul }}</p>
                                             <p class="lead mx-5">{{ $t->deskripsi }}</p>
-                                            @foreach ($file as $f)
-                                                <a class=" mx-5 btn  btn-outline-primary"
-                                                    href="{{ asset('storage/' . $f->path) }}" target="_blank">
-                                                    <span class="btn-inner--icon"><i class="ni ni-album-2"></i></span>
-                                                    <span class="mx-1">{{ $f->path }}</span>
-                                                </a>
-                                            @endforeach
-
-
+                                            <div class="row mt-5">
+                                                @foreach ($file as $f)
+                                                    <div class="col-sm-12">
+                                                        @if ($f->image)
+                                                            <a class=" mx-5 btn  btn-outline-primary"
+                                                                href="{{ asset('storage/' . $f->image) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->image }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        @if ($f->file)
+                                                            <a class=" mx-5 btn  btn-outline-danger"
+                                                                href="{{ asset('storage/' . $f->file) }}"
+                                                                target="_blank">
+                                                                <span class="btn-inner--icon"><i
+                                                                        class="ni ni-album-2"></i></span>
+                                                                <span class="mx-1">{{ $f->file }}</span>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -273,8 +289,8 @@
                                                     class="fab fa-buromobelexperte	"></i></button>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1 text-dark text-sm">Kategori</h6>
-                                                <span class="text-xs">{{ $t->kategori->name }}
-                                                    ({{ $t->kategori->deskripsi }})
+                                                <span class="text-xs">{{ $t->get_kategori->name }}
+                                                    ({{ $t->get_kategori->deskripsi }})
                                                 </span>
                                             </div>
                                         </div>
@@ -308,6 +324,7 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
                                                     <span class="text-xs">{{ $t->telaah }}</span>
                                                 </div>
                                             </div>
@@ -359,12 +376,17 @@
                                 @if ($t->setuju == 1)
                                     <div class="container ">
                                         <center>
-                                            <button type="button" class="btn btn-primary btn-sm">Pertanyaan
-                                                Baru</button>
-                                            <button type="button" class="btn bg-gradient-info btn-sm">Pertanyaan
-                                                Terkait</button>
-                                            <button type="button"
-                                                class="btn bg-gradient-success btn-sm w-95">Selesai</button>
+                                            @if (!$t->selesai)
+                                                <button wire:click.prevent="selesai({{ $t->id }})"
+                                                    class="btn bg-gradient-success btn-sm w-95">Selesai</button>
+                                            @else
+                                                <a href="{{ route('tiket') }}"
+                                                    class="btn bg-gradient-primary btn-sm w-95">Pertanyaan
+                                                    Baru</a>
+                                                <button wire:click.prevent="terkait({{ $t->id }})"
+                                                    class="btn bg-gradient-info btn-sm w-95">Pertanyaan
+                                                    Terkait</button>
+                                            @endif
                                         </center>
                                     </div>
                                 @endif

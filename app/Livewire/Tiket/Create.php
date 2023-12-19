@@ -3,16 +3,11 @@
 namespace App\Livewire\Tiket;
 
 use App\Models\ParameterKategori;
-use App\Models\Ticket;
-use App\Models\TicketCategory;
-use App\Models\TicketChat;
 use App\Models\TransaksiTiket;
 use App\Models\TransaksiTiketChat;
 use App\Models\TransaksiTiketFile;
-use App\Models\TransaksiTiketProses;
 use App\Models\TransaksiTiketStatus;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,16 +17,17 @@ class Create extends Component
     use WithFileUploads;
 
     public $kategori, $user_id;
-    public $judul, $deskripsi, $gambar;
+    public $judul, $deskripsi, $gambar, $file;
     public $pengajuan, $telaah, $jawaban, $selesai;
 
-    public function rules(): array
+    public function rules()
     {
         return [
             'kategori'      => ['required'],
             'judul'         => ['required'],
             'deskripsi'     => ['required'],
             'gambar'        => ['nullable', 'sometimes'],
+            'file'          => ['nullable', 'sometimes', 'file', 'mimes:pdf,doc,docx,xlsx', 'max:5000']
         ];
     }
 
@@ -71,12 +67,23 @@ class Create extends Component
                 'id_transaksi_tiket' => $ticket->id
             ]);
 
-            $filename = $this->gambar ? $this->gambar->getClientOriginalName() : null;
-            TransaksiTiketFile::create([
-                'id_transaksi_tiket'    => $ticket->id,
-                'path'                  => $this->gambar ? $this->gambar->storeAs('path', $filename, 'public') : null,
-                'type'                  => $this->gambar->getMimeType()
-            ]);
+            if ($this->gambar) {
+                $pictname = $this->gambar ? $this->gambar->getClientOriginalName() : null;
+                TransaksiTiketFile::create([
+                    'id_transaksi_tiket'    => $ticket->id,
+                    'image'                 => $this->gambar ? $this->gambar->storeAs('path', $pictname, 'public') : null,
+                    'type'                  => $this->gambar ? $this->gambar->getMimeType() : null
+                ]);
+            }
+
+            if ($this->file) {
+                $filename = $this->file ? $this->file->getClientOriginalName() : null;
+                TransaksiTiketFile::create([
+                    'id_transaksi_tiket'    => $ticket->id,
+                    'file'                  => $this->file ? $this->file->storeAs('path', $filename, 'public') : null,
+                    'type'                  => $this->file ? $this->file->getMimeType() : null
+                ]);
+            }
         }
 
         $this->resetInput();
