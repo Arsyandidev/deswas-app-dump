@@ -18,6 +18,8 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet"
             data-navigate-track />
         <link href="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css" rel="stylesheet">
+        <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet'
+            type='text/css' />
 
         @stack('css')
     </head>
@@ -29,7 +31,7 @@
 
         {{ $slot }}
 
-        <!--   Core JS Files   -->
+        <!--   Core JS `iles   -->
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -135,6 +137,8 @@
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}" data-navigate-track></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'>
+        </script>
         @vite(['resources/js/app.js'])
     </body>
 

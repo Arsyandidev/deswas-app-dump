@@ -51,13 +51,20 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Deskripsi</label>
-                                            <textarea wire:model="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" rows="3"
-                                                placeholder="Deskripsikan pertanyaan disini"></textarea>
+                                            <div wire:ignore id="example" wire:model="deskripsi"
+                                                class="form-control @error('deskripsi') is-invalid @enderror"></div>
                                             @error('deskripsi')
                                                 <div class="alert alert-danger mt-2">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
+                                            {{-- <textarea wire:model="deskripsi" id="example" class="form-control @error('deskripsi') is-invalid @enderror"
+                                                rows="3" placeholder="Deskripsikan pertanyaan disini"></textarea>
+                                            @error('deskripsi')
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror --}}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -106,3 +113,9 @@
         </div>
     </main>
 </div>
+
+@push('js')
+    <script>
+        var editor = new FroalaEditor('#example');
+    </script>
+@endpush
