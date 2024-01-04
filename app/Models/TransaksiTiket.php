@@ -28,11 +28,29 @@ class TransaksiTiket extends Model
         return $query;
     }
 
+    public static function getNamaInspektur($id)
+    {
+        $query = DB::table('transaksi_tiket')
+            ->join('users', 'transaksi_tiket.user_inspektur', '=', 'users.id')
+            ->where('transaksi_tiket.id', '=', $id)
+            ->get();
+        return $query;
+    }
+
     public static function getFile($id)
     {
         $query = DB::table('transaksi_tiket_file')
             ->join('transaksi_tiket', 'transaksi_tiket_file.id_transaksi_tiket', '=', 'transaksi_tiket.id')
             ->where('transaksi_tiket_file.id_transaksi_tiket', '=', $id)
+            ->get();
+        return $query;
+    }
+
+    public static function getTiketLayer2()
+    {
+        $query = DB::table('transaksi_tiket')
+            ->join('users', 'transaksi_tiket.layers', '=', 'users.layers')
+            ->where('transaksi_tiket.layers', '=', 2)
             ->get();
         return $query;
     }

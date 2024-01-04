@@ -4,6 +4,7 @@ namespace App\Livewire\Tiket;
 
 use App\Models\ParameterKategori;
 use App\Models\TransaksiTiket;
+use App\Models\TransaksiTiketChart;
 use App\Models\TransaksiTiketChat;
 use App\Models\TransaksiTiketFile;
 use App\Models\TransaksiTiketStatus;
@@ -17,7 +18,7 @@ class Create extends Component
     use WithFileUploads;
 
     public $kategori, $user_id;
-    public $judul, $deskripsi, $gambar, $file;
+    public $judul, $deskripsi = '', $gambar, $file;
     public $pengajuan, $telaah, $jawaban, $selesai;
 
     public function rules()
@@ -64,6 +65,10 @@ class Create extends Component
             ]);
 
             TransaksiTiketStatus::create([
+                'id_transaksi_tiket' => $ticket->id
+            ]);
+
+            TransaksiTiketChart::create([
                 'id_transaksi_tiket' => $ticket->id
             ]);
 

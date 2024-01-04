@@ -32,9 +32,10 @@ return new class extends Migration
             $table->integer('user_telaah')->nullable();
             $table->dateTime('jawaban')->nullable();
             $table->dateTime('selesai')->nullable();
-            $table->boolean('user_inspektur')->default(0);
+            $table->integer('user_inspektur')->nullable();
             $table->boolean('setuju')->nullable();
-            $table->boolean('tolak')->nullable();
+            $table->boolean('tolak')->default(0);
+            $table->integer('duration_seconds')->default(180);
             $table->integer('user_id');
             $table->timestamps();
         });

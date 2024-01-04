@@ -22,10 +22,13 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                #</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Pertanyaan</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Tingkat Kesulitan</th>
+                                                Kategori</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Status</th>
@@ -38,12 +41,24 @@
                                                 <td style="text-wrap: wrap">
                                                     <div class="mx-3">
                                                         <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm">#{{ $t->id }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="text-wrap: wrap">
+                                                    <div class="mx-3">
+                                                        <div class="d-flex flex-column justify-content-center">
                                                             <h6 class="mb-0 text-sm">{{ $t->judul }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <span class="badge badge-sm bg-gradient-success">Rendah</span>
+                                                <td style="text-wrap: wrap">
+                                                    <div class="mx-3">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm">{{ $t->getKategori->name ?? '-' }}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td class="align-middle text-center text-sm">
                                                     <table class="table table-bordered">

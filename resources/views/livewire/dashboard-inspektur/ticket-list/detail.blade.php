@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -206,7 +206,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <p class="h3 text-center">{{ $t->judul }}
-                                                @if ($t->setuju != 1)
+                                                @if ($t->setuju != true && $t->tolak != true)
                                                     <button class="btn btn-sm btn-primary mx-3" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">Ubah</button>
                                                 @endif
@@ -217,8 +217,7 @@
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Modal
-                                                                title
+                                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Judul
                                                             </h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close">
@@ -291,14 +290,20 @@
                                                     <strong>Success!</strong> Jawaban sudah di setujui.
                                                 </div>
                                             @endif
+                                            @if ($t->tolak == true)
+                                                <div class="alert bg-gradient-danger text-white text-center"
+                                                    role="alert">
+                                                    <strong>Ditolak!</strong>
+                                                </div>
+                                            @endif
 
-                                            @if ($t->setuju == false)
+                                            @if ($t->setuju == false && $t->tolak == false)
                                                 <button wire:click.prevent="setuju({{ $t->id }})"
                                                     class="btn btn-primary btn-sm">Setuju</button>
                                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">Ubah</button>
+                                                    data-bs-target="#exampleModal1">Ubah</button>
                                                 <!-- Modal -->
-                                                <div class="modal" id="exampleModal" tabindex="-1" role="dialog"
+                                                <div class="modal" id="exampleModal1" tabindex="-1" role="dialog"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
@@ -461,6 +466,20 @@
                                             </div>
                                         </li>
                                     @endif
+                                    @if ($t->tolak != null)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
+                                                        class="fa fa-remove"></i></button>
+                                                <div class="d-flex flex-column">
+                                                    <span class="text-xs">Inspektur menolak tiket pertanyaan
+                                                        ini.</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
                                     @if ($t->jawaban != null && $t->setuju == 1)
                                         <li
                                             class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -469,7 +488,9 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    @foreach ($inspekturName as $in)
+                                                        <h6 class="mb-1 text-dark text-sm">{{ $in->name }}</h6>
+                                                    @endforeach
                                                     <span class="text-xs">{{ $t->jawaban }}</span>
                                                 </div>
                                             </div>

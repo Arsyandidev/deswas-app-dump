@@ -4,13 +4,14 @@ namespace App\Livewire\DashboardInspektur\TicketList;
 
 use App\Models\TransaksiTiket;
 use App\Models\TransaksiTiketChat;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Detail extends Component
 {
     public $ticket, $getChat, $ticketChat, $chatPerson;
     public $getProses, $getUser, $ubahChat;
-    public $getTelaah, $getFile;
+    public $getTelaah, $getInspektur, $getFile;
     public $ubahJudul;
 
     public function mount($id)
@@ -31,8 +32,9 @@ class Detail extends Component
             ->get();
         $this->getUser = json_decode($user);
 
-        $this->getTelaah = TransaksiTiket::getNamaTelaah($id);
-        $this->getFile = TransaksiTiket::getFile($id);
+        $this->getTelaah    = TransaksiTiket::getNamaTelaah($id);
+        $this->getInspektur = TransaksiTiket::getNamaInspektur($id);
+        $this->getFile      = TransaksiTiket::getFile($id);
     }
 
     public function render()
@@ -40,6 +42,7 @@ class Detail extends Component
         return view('livewire.dashboard-inspektur.ticket-list.detail', [
             'ticket'        => $this->ticket,
             'telaahName'    => $this->getTelaah,
+            'inspekturName' => $this->getInspektur,
             'file'          => $this->getFile,
             'user'          => $this->getUser,
             'proses'        => $this->getProses,
@@ -51,7 +54,8 @@ class Detail extends Component
     {
         TransaksiTiket::where('id', $id)
             ->update([
-                'setuju' => 1
+                'setuju'            => 1,
+                'user_inspektur'    => Auth::user()->id
             ]);
 
         toast('Pertanyaan berhasil di setujui', 'success');
@@ -64,12 +68,13 @@ class Detail extends Component
     {
         TransaksiTiketChat::where('id_transaksi_tiket', $id)
             ->update([
-                'chat' => $this->ubahChat,
+                'chat'              => $this->ubahChat,
             ]);
 
         TransaksiTiket::where('id', $id)
             ->update([
-                'setuju' => 1
+                'setuju' => 1,
+                'user_inspektur'    => Auth::user()->id
             ]);
 
         toast('Jawaban auditor berhasil di perbaiki.', 'success');
@@ -95,7 +100,7 @@ class Detail extends Component
     {
         TransaksiTiket::where('id', $id)
             ->update([
-                'setuju' => 0
+                'tolak' => 1
             ]);
 
         toast('Ditolak.', 'success');

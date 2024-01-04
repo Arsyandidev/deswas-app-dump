@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -206,7 +206,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <p class="h3 text-center">{{ $t->judul }}
-                                                @if ($t->setuju != 1)
+                                                @if ($t->jawaban == null or Auth::user()->layers == 2)
                                                     <button class="btn btn-sm btn-primary mx-3" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">Ubah</button>
                                                 @endif
@@ -272,47 +272,106 @@
                                 </div>
                                 <hr class="horizontal dark">
                                 <p class="text-uppercase text-sm">Jawaban</p>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @if (!empty($t->resiko))
-                                                @foreach ($chat as $c)
-                                                    @if ($c->chat == null)
-                                                        <form wire:submit.prevent="chat({{ $t->id }})">
-                                                            <textarea class="form-control" wire:model="getChat"></textarea>
-                                                            <button class="btn btn-primary my-3 btn-lg w-100"
-                                                                type="submit">Kirim</button>
-                                                        </form>
+                                @if ($t->layers == 2)
+                                    @if (Auth::user() && Auth::user()->layers == 2)
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @if (!empty($t->resiko))
+                                                        @foreach ($chat as $c)
+                                                            @if ($c->chat == null)
+                                                                <form wire:submit.prevent="chat({{ $t->id }})">
+                                                                    <textarea class="form-control" wire:model="getChat"></textarea>
+                                                                    <button class="btn btn-primary my-3 btn-lg w-100"
+                                                                        type="submit">Kirim</button>
+                                                                </form>
+                                                            @endif
+
+                                                            @if ($c->chat != null && $t->setuju == 0)
+                                                                <div class="alert alert-light" role="alert">
+                                                                    {{ $c->chat }}
+                                                                </div>
+                                                                <div class="alert alert-warning text-white text-center"
+                                                                    role="alert">
+                                                                    <strong>Perhatian!</strong> Menunggu persetujuan
+                                                                    dari
+                                                                    Inspektur.
+                                                                </div>
+                                                            @elseif ($c->chat != null && $t->setuju == 1)
+                                                                <div class="alert alert-light" role="alert">
+                                                                    {{ $c->chat }}
+                                                                </div>
+                                                                <div class="alert alert-success text-white text-center"
+                                                                    role="alert">
+                                                                    <strong>Success!</strong> Tiket selesai
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        <div class="alert alert-info text-white text-center"
+                                                            role="alert">
+                                                            <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
+                                                        </div>
                                                     @endif
 
-                                                    @if ($c->chat != null && $t->setuju == 0)
-                                                        <div class="alert alert-light" role="alert">
-                                                            {{ $c->chat }}
-                                                        </div>
-                                                        <div class="alert alert-warning text-white text-center"
-                                                            role="alert">
-                                                            <strong>Perhatian!</strong> Menunggu persetujuan dari
-                                                            Inspektur.
-                                                        </div>
-                                                    @elseif ($c->chat != null && $t->setuju == 1)
-                                                        <div class="alert alert-light" role="alert">
-                                                            {{ $c->chat }}
-                                                        </div>
-                                                        <div class="alert alert-success text-white text-center"
-                                                            role="alert">
-                                                            <strong>Success!</strong> Tiket selesai
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                <div class="alert alert-info text-white text-center" role="alert">
-                                                    <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
                                                 </div>
-                                            @endif
+                                            </div>
+                                        </div>
+                                    @else
+                                        @if ($t->tolak != true)
+                                            <div class="alert alert-warning text-white text-center" role="alert">
+                                                <strong>Perhatian!</strong> Tiket sudah dialihkan ke Layer 2.
+                                            </div>
+                                        @else
+                                            <div class="alert alert-danger text-white text-center" role="alert">
+                                                <strong>Ditolak!</strong>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @else
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @if (!empty($t->resiko))
+                                                    @foreach ($chat as $c)
+                                                        @if ($c->chat == null)
+                                                            <form wire:submit.prevent="chat({{ $t->id }})">
+                                                                <textarea class="form-control" wire:model="getChat"></textarea>
+                                                                <button class="btn btn-primary my-3 btn-lg w-100"
+                                                                    type="submit">Kirim</button>
+                                                            </form>
+                                                        @endif
 
+                                                        @if ($c->chat != null && $t->setuju == 0)
+                                                            <div class="alert alert-light" role="alert">
+                                                                {{ $c->chat }}
+                                                            </div>
+                                                            <div class="alert alert-warning text-white text-center"
+                                                                role="alert">
+                                                                <strong>Perhatian!</strong> Menunggu persetujuan dari
+                                                                Inspektur.
+                                                            </div>
+                                                        @elseif ($c->chat != null && $t->setuju == 1)
+                                                            <div class="alert alert-light" role="alert">
+                                                                {{ $c->chat }}
+                                                            </div>
+                                                            <div class="alert alert-success text-white text-center"
+                                                                role="alert">
+                                                                <strong>Success!</strong> Tiket selesai
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <div class="alert alert-info text-white text-center"
+                                                        role="alert">
+                                                        <strong>Kosong!</strong> Belum ada jawaban dari Auditor.
+                                                    </div>
+                                                @endif
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -339,7 +398,8 @@
                                                 class="btn btn-icon-only btn-rounded btn-outline-info mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                     class="fab fa-buromobelexperte	"></i></button>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Kategori</h6>
+                                                <h6 class="mb-1 text-dark text-sm">Kategori<span>
+                                                    </span></h6>
                                                 <span class="text-xs">{{ $t->get_kategori->name }}
                                                     ({{ $t->get_kategori->deskripsi }})
                                                 </span>
@@ -410,7 +470,9 @@
                                                     class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
                                                         class="fas fa-arrow-up"></i></button>
                                                 <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Tim Deswas</h6>
+                                                    @foreach ($inspekturName as $in)
+                                                        <h6 class="mb-1 text-dark text-sm">{{ $in->name }}</h6>
+                                                    @endforeach
                                                     <span class="text-xs">{{ $t->jawaban }}</span>
                                                 </div>
                                             </div>
@@ -424,18 +486,22 @@
                                 <hr class="horizontal dark">
                                 @if (Auth::user() && Auth::user()->role_id == 3)
                                     @if ($t->telaah == null)
-                                        <form action="">
-                                            <label for="exampleFormControlSelect1">Ubah Kategori</label>
-                                            <select class="form-control mb-2" wire:model="ubahKategori">
-                                                @foreach ($category as $ct)
-                                                    <option value="{{ $ct->id }}"
-                                                        {{ $ct->id == $t->kategori ? 'selected' : '' }}>
-                                                        {{ $ct->name }}
-                                                        ({{ $ct->deskripsi }})
-                                                    </option>
+                                        <div class="btn-group w-100 dropup mt-7">
+                                            <button class="btn btn-xs w-100 bg-gradient-primary dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Sesuaikan Kategori
+                                            </button>
+                                            <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownMenuButton">
+                                                @foreach ($category as $c)
+                                                    <li
+                                                        wire:click="updateCategory({{ $t->id }}, {{ $c->id }})">
+                                                        <a class="dropdown-item border-radius-md">
+                                                            {{ $c->name }}
+                                                        </a>
+                                                    </li>
                                                 @endforeach
-                                            </select>
-                                        </form>
+                                            </ul>
+                                        </div>
                                         <button wire:click.prevent="telaah({{ $t->id }})"
                                             class="btn btn-primary btn-lg w-100">Telaah</button>
                                     @endif

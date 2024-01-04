@@ -42,29 +42,34 @@
                                                 class="form-control @error('judul') is-invalid @enderror" type="text"
                                                 placeholder="Masukan judul pertanyaan">
                                             @error('judul')
-                                                <div class="alert alert-danger mt-2">
-                                                    {{ $message }}
-                                                </div>
+                                                <p class="text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Deskripsi</label>
-                                            <div wire:ignore id="example" wire:model="deskripsi"
-                                                class="form-control @error('deskripsi') is-invalid @enderror"></div>
+                                            <div class="deskripsi form-control @error('deskripsi') is-invalid @enderror"
+                                                rows="3" placeholder="Deskripsikan pertanyaan disini"
+                                                wire:model.lazy="deskripsi" wire:key="deskripsi" x-data
+                                                x-ref="deskripsi" x-init="tinymce.init({
+                                                    selector: '.deskripsi',
+                                                    plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+                                                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                                                    tinycomments_mode: 'embedded',
+                                                    tinycomments_author: 'Helpdesk Pengawasan',
+                                                    relative_urls: false,
+                                                    remove_script_host: false,
+                                                    setup: function(editor) {
+                                                        editor.on('blur', function(e) {
+                                                            @this.set('deskripsi', editor.getContent());
+                                                        });
+                                                    },
+                                                    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                                                })"></div>
                                             @error('deskripsi')
-                                                <div class="alert alert-danger mt-2">
-                                                    {{ $message }}
-                                                </div>
+                                                <p class="text-danger">{{ $message }}</p>
                                             @enderror
-                                            {{-- <textarea wire:model="deskripsi" id="example" class="form-control @error('deskripsi') is-invalid @enderror"
-                                                rows="3" placeholder="Deskripsikan pertanyaan disini"></textarea>
-                                            @error('deskripsi')
-                                                <div class="alert alert-danger mt-2">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror --}}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -113,9 +118,3 @@
         </div>
     </main>
 </div>
-
-@push('js')
-    <script>
-        var editor = new FroalaEditor('#example');
-    </script>
-@endpush

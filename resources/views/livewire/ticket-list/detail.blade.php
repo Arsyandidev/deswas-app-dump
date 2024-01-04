@@ -58,8 +58,8 @@
         }
 
         /* .tracking-list {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid #e5e5e5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px solid #e5e5e5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
         .tracking-item {
             border-left: 1px solid #e5e5e5;
@@ -206,8 +206,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <p class="h3 text-center">{{ $t->judul }}</p>
-                                            <p class="lead mx-5">{{ $t->deskripsi }}</p>
+                                            <p class="lead mx-5">{!! $t->deskripsi !!}</p>
                                             <div class="row mt-5">
+                                                <p class="h6 mx-5">Lampiran:</p>
                                                 @foreach ($file as $f)
                                                     <div class="col-sm-12">
                                                         @if ($f->image)
@@ -248,8 +249,7 @@
                                             @endif
                                             @if ($t->jawaban != null && $t->setuju == 0)
                                                 <div class="alert alert-warning text-white text-center" role="alert">
-                                                    <strong>Perhatian!</strong> Pertanyaan sudah di tanggapi. <br>
-                                                    Menunggu persetujuan dari Inspektur.
+                                                    <strong>Perhatian!</strong> Pertanyaan sedang di proses.
                                                 </div>
                                             @endif
                                             @if ($t->jawaban != null && $t->setuju == 1)
@@ -289,8 +289,8 @@
                                                     class="fab fa-buromobelexperte	"></i></button>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1 text-dark text-sm">Kategori</h6>
-                                                <span class="text-xs">{{ $t->get_kategori->name }}
-                                                    ({{ $t->get_kategori->deskripsi }})
+                                                <span class="text-xs">{{ $t->get_kategori->name ?? '-' }}
+                                                    ({{ $t->get_kategori->deskripsi ?? '-' }})
                                                 </span>
                                             </div>
                                         </div>
@@ -331,20 +331,6 @@
                                             <div
                                                 class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
                                                 Telaah
-                                            </div>
-                                        </li>
-                                    @endif
-                                    @if ($t->jawaban != null)
-                                        <li
-                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <button
-                                                    class="btn btn-icon-only btn-rounded btn-outline-warning mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                        class="fas fa-exclamation"></i></button>
-                                                <div class="d-flex flex-column">
-                                                    <span class="text-xs">Pertanyaan sudah di Jawab, menunggu
-                                                        persetujuan dari Inspektur</span>
-                                                </div>
                                             </div>
                                         </li>
                                     @endif
